@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { inter } from "./ui/fonts";
+import { inter } from "@/app/ui/fonts";
+import "@/app/global.css";
 
 export const metadata: Metadata = {
   title: "Accouting System",
