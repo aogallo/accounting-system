@@ -1,4 +1,7 @@
-import { CreatePayableAccount } from "@/app/ui/buttons";
+import {
+  CreatePayableAccount,
+  UploadPayableAccountFile,
+} from "@/app/ui/buttons";
 import { lusitana } from "@/app/ui/fonts";
 
 export default function Page() {
@@ -10,6 +13,7 @@ export default function Page() {
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         {/* <Search placeholder="Search invoices..." /> */}
         <CreatePayableAccount />
+        <UploadPayableAccountFile />
       </div>
       {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}> */}
       {/*   <Table query={query} currentPage={currentPage} /> */}
