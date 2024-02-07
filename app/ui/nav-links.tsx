@@ -17,9 +17,13 @@ type LinksType = {
 
 const links: LinksType[] = [
   { name: "Home", href: "/home", icon: HomeIcon },
-  { name: "Accounts Payable", href: "/accounts/payable", icon: CreditCardIcon },
   {
-    name: "Accounts Receivable",
+    name: "Payable Accounts",
+    href: "/accounts/payable",
+    icon: CreditCardIcon,
+  },
+  {
+    name: "Receivable Accounts ",
     href: "/accounts/receivable",
     icon: BanknotesIcon,
   },
