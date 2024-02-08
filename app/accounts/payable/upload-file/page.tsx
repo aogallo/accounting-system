@@ -2,8 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
-import { normalizeData, normalizeDataToSave } from './normalize-data'
-import { Button } from '@/app/ui/Button'
+import { normalizeData } from './normalize-data'
 
 export default function Page() {
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
@@ -44,15 +43,10 @@ export default function Page() {
     }
   }, [file])
 
-  const handleSave = (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    normalizeDataToSave(unNormalizeData)
-  }
-
   return (
     <section>
       <section className='flex'>
         <input type='file' onChange={handleChange} />
-        <Button onClick={handleSave}>Save</Button>
       </section>
       {fileData && (
         <table className='mt-2 border-collapse border border-slate-500'>

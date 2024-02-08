@@ -1,3 +1,5 @@
+import { Bill } from '@/app/lib/definitions'
+
 export const headers = [
   'Fecha de emisión',
   'Número de Autorización',
@@ -56,32 +58,6 @@ export const normalizeData = (
   })
   // console.log(newData)
   return data
-}
-
-type Bill = {
-  date: string
-  authorizationNumber: string
-  dteType: string
-  serie: string
-  dteNumber: string
-  nit: string
-  state: string
-  metadata: {
-    currency: string
-    amount: string
-    iva: string
-    petroleum?: number
-    tourismAccommodation?: number
-    tourismTickets?: number
-    pressStamp?: number
-    firefighters?: number
-    municipalTax?: number
-    alcoholicBeverages?: number
-    tobacco?: number
-    cement?: number
-    nonAlcoholicBeverages?: number
-    portFee?: number
-  }
 }
 
 export const normalizeDataToSave = (data: Record<string, any>[]) => {

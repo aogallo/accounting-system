@@ -1,39 +1,42 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, MongoClientOptions } from 'mongodb'
 
-const uri = process.env.MONGO_URI as string;
-const options = {};
+// Replace with your MongoDB connection string
+const uri = process.env.MONGODB_URI as string
+const options: MongoClientOptions = {
+  retryWrites: false,
+}
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient>;
+  var _mongoClientPromise: Promise<MongoClient>
 }
 
 class Singleton {
-  private static _instance: Singleton;
-  private client: MongoClient;
-  private clientPromise: Promise<MongoClient>;
+  private static _instance: Singleton
+  private client: MongoClient
+  private clientPromise: Promise<MongoClient>
 
   private constructor() {
-    this.client = new MongoClient(uri, options);
-    this.clientPromise = this.client.connect();
+    this.client = new MongoClient(uri, options)
+    this.clientPromise = this.client.connect()
 
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === 'development') {
       // In development mode, use a global variable to preserve the value
       // across module reloads caused by HMR (Hot Module Replacement).
-      global._mongoClientPromise = this.clientPromise;
+      global._mongoClientPromise = this.clientPromise
     }
   }
 
   public static get instance() {
     if (!this._instance) {
-      this._instance = new Singleton();
+      this._instance = new Singleton()
     }
-    return this._instance.clientPromise;
+    return this._instance.clientPromise
   }
 }
 
-const clientPromise = Singleton.instance;
+const clientPromise = Singleton.instance
 
 // Export a module-scoped MongoClient promise.
 // By doing this in a separate module,
 // the client can be shared across functions.
-export default clientPromise;
+export default clientPromise
