@@ -1,42 +1,20 @@
-import { MongoClient, MongoClientOptions } from 'mongodb'
+import { connect, connection } from 'mongoose'
 
-// Replace with your MongoDB connection string
-const uri = process.env.MONGODB_URI as string
-const options: MongoClientOptions = {
-  retryWrites: false,
+const conn = {
+  isConnected: false,
 }
 
-declare global {
-  var _mongoClientPromise: Promise<MongoClient>
-}
-
-class Singleton {
-  private static _instance: Singleton
-  private client: MongoClient
-  private clientPromise: Promise<MongoClient>
-
-  private constructor() {
-    this.client = new MongoClient(uri, options)
-    this.clientPromise = this.client.connect()
-
-    if (process.env.NODE_ENV === 'development') {
-      // In development mode, use a global variable to preserve the value
-      // across module reloads caused by HMR (Hot Module Replacement).
-      global._mongoClientPromise = this.clientPromise
-    }
+export async function dbConnect() {
+  if (conn.isConnected) {
+    return
   }
 
-  public static get instance() {
-    if (!this._instance) {
-      this._instance = new Singleton()
-    }
-    return this._instance.clientPromise
-  }
+  const db = await connect(
+    process.env.MONGODB_URI || 'mongodb://localhost:27017/nextjs'
+  )
+  conn.isConnected = db.connections[0].readyState === 1
 }
 
-const clientPromise = Singleton.instance
+connection.on('connected', () => console.log('Mongodb connected to db'))
 
-// Export a module-scoped MongoClient promise.
-// By doing this in a separate module,
-// the client can be shared across functions.
-export default clientPromise
+connection.on('error', (err) => console.error('Mongodb Errro:', err.message))

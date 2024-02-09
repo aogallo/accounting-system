@@ -2,7 +2,8 @@
 
 import { ChangeEvent, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
-import { normalizeData } from './normalize-data'
+import { normalizeData, normalizeDataToSave } from './normalize-data'
+import { Button } from '@/app/ui/Button'
 
 export default function Page() {
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
@@ -14,9 +15,8 @@ export default function Page() {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'text/csv',
   ]
-  const [unNormalizeData, setUnNormalizeData] = useState<Record<string, any>[]>(
-    []
-  )
+
+  const [dataToSave, setDataToSave] = useState<Record<string, any>[]>([])
 
   const handleChange = (file: ChangeEvent<HTMLInputElement>) => {
     const newFile = file.target.files?.[0]
@@ -38,16 +38,34 @@ export default function Page() {
       const worksheetName = workbook.SheetNames[0]
       const worksheet = workbook.Sheets[worksheetName]
       const data = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet)
-      setUnNormalizeData(data)
-      setFileData(normalizeData(data, true))
+      if (data) {
+        setDataToSave(normalizeDataToSave(data, true))
+        setFileData(normalizeData(data, true))
+      }
     }
   }, [file])
+
+  const handleCreatePayableAccounts = async () => {
+    try {
+      await fetch('/api/accounts/payable', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSave),
+      })
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   return (
     <section>
       <section className='flex'>
         <input type='file' onChange={handleChange} />
       </section>
+      <input type='text' name='name' id='name' />
+      <Button onClick={handleCreatePayableAccounts}> save</Button>
       {fileData && (
         <table className='mt-2 border-collapse border border-slate-500'>
           <thead>
@@ -57,9 +75,12 @@ export default function Page() {
                   <th key={key} className='border border-slate-600'>
                     <h3 className='text-xs'>
                       {' '}
-                      {key
-                        .replace('(Gran Total)', '')
-                        .replace('(monto de este impuesto)', '')}
+                      {
+                        key
+
+                        // .replace('(Gran Total)', '')
+                        // .replace('(monto de este impuesto)', '')
+                      }
                     </h3>
                   </th>
                 ))}

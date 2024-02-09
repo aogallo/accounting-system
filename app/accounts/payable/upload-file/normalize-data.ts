@@ -1,4 +1,34 @@
-import { Bill } from '@/app/lib/definitions'
+import { Account, AccountState, AccountType, Currency } from '@/models/Account'
+
+export const initialState: Account = {
+  date: '',
+  authorizationNumber: '',
+  dteNumber: '',
+  currency: Currency.GTQ,
+  iva: 0,
+  issuerName: '',
+  accountType: AccountType.PAYABLE,
+  type: '',
+  recipientName: '',
+  receiverId: '',
+  issuerId: '',
+  serie: '',
+  state: AccountState.VIGENTE,
+  amount: 0,
+  metadata: {
+    petroleum: 0,
+    accommodation: 0,
+    tickets: 0,
+    pressStamp: 0,
+    firefighters: 0,
+    municipalTax: 0,
+    tobacco: 0,
+    alcoholicBeverages: 0,
+    cement: 0,
+    nonAlcoholicBeverages: 0,
+    portFee: 0,
+  },
+}
 
 export const headers = [
   'Fecha de emisión',
@@ -33,8 +63,6 @@ export const headers = [
 ]
 
 const noPayableValues = [
-  'ID del receptor',
-  'Nombre completo del receptor',
   'NIT del Certificador',
   'Nombre completo del Certificador',
 ]
@@ -42,8 +70,8 @@ const noPayableValues = [
 export const normalizeData = (
   data: Record<string, any>[],
   isPayable: boolean = false
-) => {
-  data.map((row) => {
+): Record<string, any>[] => {
+  return data.map((row) => {
     for (const [key, value] of Object.entries(row)) {
       if (key === 'Fecha de emisión') {
         row[key] = value.split('T')[0]
@@ -55,48 +83,110 @@ export const normalizeData = (
         }
       }
     }
+
+    return row
   })
-  // console.log(newData)
-  return data
 }
 
-export const normalizeDataToSave = (data: Record<string, any>[]) => {
-  let register: Bill
-  const registers: Bill[] = []
+export const normalizeDataToSave = (
+  data: Record<string, any>[],
+  isPayable = true
+) => {
+  const register: Account = {
+    date: '',
+    authorizationNumber: '',
+    dteNumber: '',
+    currency: Currency.GTQ,
+    iva: 0,
+    issuerName: '',
+    accountType: AccountType.PAYABLE,
+    type: '',
+    recipientName: '',
+    receiverId: '',
+    issuerId: '',
+    serie: '',
+    state: AccountState.VIGENTE,
+    amount: 0,
+    metadata: {},
+  }
+  const registers: Account[] = []
 
-  data.map((row) => {
+  data.forEach((row) => {
     for (const [key, value] of Object.entries(row)) {
-      if (key === 'Fecha de emisión') {
-        register.date = value
+      if (key === 'Fecha de emisión' && value) register.date = value
+
+      if (key === 'Número de Autorización' && value)
+        register.authorizationNumber = value
+
+      if (key.trim() === 'Tipo de DTE (nombre)' && value) register.type = value
+
+      if (key === 'Serie' && value) register.serie = value
+
+      if (key === 'Número del DTE' && value) register.dteNumber = value
+
+      if (key === 'NIT del emisor' && value) register.issuerId = value //nit del emisor
+
+      if (key === 'Nombre completo del emisor' && value)
+        register.issuerName = value //nombre del emisor
+
+      if (key === 'ID del receptor' && value) register.receiverId = value
+
+      if (key === 'Nombre completo del receptor' && value)
+        register.recipientName = value
+
+      if (key === 'Moneda' && value) register.currency = value
+
+      if (key === 'Monto (Gran Total)' && value) register.amount = value
+
+      if (key.trim() === 'Estado' && value) {
+        console.log('estado', value)
+
+        register.state = value
       }
+
+      if (key === 'IVA (monto de este impuesto)' && value) register.iva = value
+
+      register.accountType = isPayable
+        ? AccountType.PAYABLE
+        : AccountType.RECEIVABLE
+
+      if (key === 'Petróleo (monto de este impuesto)' && value)
+        register.metadata.petroleum = value
+
+      if (key === 'Turismo Hospedaje (monto de este impuesto)' && value)
+        register.metadata.accommodation = value
+
+      if (key === 'Turismo Pasajes (monto de este impuesto)' && value)
+        register.metadata.tickets = value
+
+      if (key === 'Timbre de Prensa (monto de este impuesto)' && value)
+        register.metadata.pressStamp = value
+
+      if (key === 'Bomberos (monto de este impuesto)' && value)
+        register.metadata.firefighters = value
+
+      if (key === 'Tasa Municipal (monto de este impuesto)' && value)
+        register.metadata.municipalTax = value
+
+      if (key === 'Bebidas alcohólicas (monto de este impuesto)' && value)
+        register.metadata.alcoholicBeverages = value
+
+      if (key === 'Tabaco (monto de este impuesto)' && value)
+        register.metadata.tobacco = value
+
+      if (key === 'Cemento (monto de este impuesto)' && value)
+        register.metadata.cement = value
+
+      if (key === 'Bebidas no Alcohólicas (monto de este impuesto)' && value)
+        register.metadata.nonAlcoholicBeverages = value
+
+      if (key === 'Tarifa Portuaria (monto de este impuesto)' && value)
+        register.metadata.portFee = value
     }
 
-    registers.push(register)
+    registers.push({ ...register })
+    register.metadata = {}
   })
 
-  //   create this schema
-  //   date
-  //   authorizationNumber
-  //   dteType
-  //   serie
-  //   dteNumber
-  //   nit
-  //   state
-  //   metadata {
-  //       currency
-  //       amount
-  // iva
-  // 'Petroleum ',
-  //    'Tourism Accommodation',
-  //    'Tourism Tickets',
-  //    'Press Stamp',
-  //    'Firefighters ',
-  //    'Municipal tax ',
-  //    'Alcoholic beverages ',
-  //    'Tobacco',
-  //    'Cement',
-  //    'Non-alcoholic beverages ',
-  //    'Port Fee',
-  //
-  //   }
+  return registers
 }
