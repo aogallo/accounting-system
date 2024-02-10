@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
-import { normalizeData, normalizeDataToSave } from './normalize-data'
+import { headers, normalizeData, normalizeDataToSave } from './normalize-data'
 import { Button } from '@/app/ui/Button'
 
 export default function Page() {
@@ -70,20 +70,19 @@ export default function Page() {
         <table className='mt-2 border-collapse border border-slate-500'>
           <thead>
             <tr>
-              {fileData[0] &&
-                Object.keys(fileData[0]).map((key) => (
-                  <th key={key} className='border border-slate-600'>
-                    <h3 className='text-xs'>
-                      {' '}
-                      {
-                        key
+              {headers.map((key) => (
+                <th key={key} className='border border-slate-600'>
+                  <h3 className='text-xs'>
+                    {' '}
+                    {
+                      key
 
-                        // .replace('(Gran Total)', '')
-                        // .replace('(monto de este impuesto)', '')
-                      }
-                    </h3>
-                  </th>
-                ))}
+                      // .replace('(Gran Total)', '')
+                      // .replace('(monto de este impuesto)', '')
+                    }
+                  </h3>
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>

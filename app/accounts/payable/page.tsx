@@ -1,4 +1,3 @@
-import { fetchPayableAccounts } from '@/app/lib/PayableAccountActions'
 import {
   CreatePayableAccount,
   UploadPayableAccountFile,
@@ -6,9 +5,6 @@ import {
 import { lusitana } from '@/app/ui/fonts'
 
 export default async function Page() {
-  const { data: payableAccounts, totalCount } = await fetchPayableAccounts(1)
-  console.log('payableAccounts', payableAccounts)
-
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between'>

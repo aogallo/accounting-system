@@ -46,6 +46,7 @@ export const headers = [
   'Nombre completo del Certificador',
   'Moneda',
   'Monto ',
+  'Fecha de anulación',
   'Estado',
   'Marca de anulado',
   'IVA ',
@@ -92,101 +93,125 @@ export const normalizeDataToSave = (
   data: Record<string, any>[],
   isPayable = true
 ) => {
-  const register: Account = {
-    date: '',
-    authorizationNumber: '',
-    dteNumber: '',
-    currency: Currency.GTQ,
-    iva: 0,
-    issuerName: '',
-    accountType: AccountType.PAYABLE,
-    type: '',
-    recipientName: '',
-    receiverId: '',
-    issuerId: '',
-    serie: '',
-    state: AccountState.VIGENTE,
-    amount: 0,
-    metadata: {},
-  }
-  const registers: Account[] = []
+  return data.map((rowT) => {
+    const row = { ...rowT }
+    console.log('original row', rowT)
+    row['metadata'] = {}
 
-  data.forEach((row) => {
-    for (const [key, value] of Object.entries(row)) {
-      if (key === 'Fecha de emisión' && value) register.date = value
+    row['date'] = row['Fecha de emisión']
+    delete row['Fecha de emisión']
 
-      if (key === 'Número de Autorización' && value)
-        register.authorizationNumber = value
+    row['authorizationNumber'] = row['Número de Autorización']
+    delete row['Número de Autorización']
 
-      if (key.trim() === 'Tipo de DTE (nombre)' && value) register.type = value
+    row['type'] = row['Tipo de DTE (nombre)']
+    delete row['Tipo de DTE (nombre)']
 
-      if (key === 'Serie' && value) register.serie = value
+    row['serie'] = row['Serie']
+    delete row['Serie']
 
-      if (key === 'Número del DTE' && value) register.dteNumber = value
+    row['dteNumber'] = row['Número del DTE']
+    delete row['Número del DTE']
 
-      if (key === 'NIT del emisor' && value) register.issuerId = value //nit del emisor
+    row['issuerId'] = row['NIT del emisor']
+    delete row['NIT del emisor']
 
-      if (key === 'Nombre completo del emisor' && value)
-        register.issuerName = value //nombre del emisor
+    row['issuerName'] = row['Nombre completo del emisor']
+    delete row['Nombre completo del emisor']
 
-      if (key === 'ID del receptor' && value) register.receiverId = value
+    row['receiverId'] = row['ID del receptor']
+    delete row['ID del receptor']
 
-      if (key === 'Nombre completo del receptor' && value)
-        register.recipientName = value
+    row['recipientName'] = row['Nombre completo del receptor']
+    delete row['Nombre completo del receptor']
 
-      if (key === 'Moneda' && value) register.currency = value
+    row['currency'] = row['Moneda']
+    delete row['Moneda']
 
-      if (key === 'Monto (Gran Total)' && value) register.amount = value
+    row['amount'] = row['Monto (Gran Total)']
+    delete row['Monto (Gran Total)']
 
-      if (key.trim() === 'Estado' && value) {
-        console.log('estado', value)
+    row['state'] = row['Estado']
+    delete row['Estado']
 
-        register.state = value
-      }
+    row['iva'] = row['IVA (monto de este impuesto)']
+    delete row['IVA (monto de este impuesto)']
 
-      if (key === 'IVA (monto de este impuesto)' && value) register.iva = value
-
-      register.accountType = isPayable
-        ? AccountType.PAYABLE
-        : AccountType.RECEIVABLE
-
-      if (key === 'Petróleo (monto de este impuesto)' && value)
-        register.metadata.petroleum = value
-
-      if (key === 'Turismo Hospedaje (monto de este impuesto)' && value)
-        register.metadata.accommodation = value
-
-      if (key === 'Turismo Pasajes (monto de este impuesto)' && value)
-        register.metadata.tickets = value
-
-      if (key === 'Timbre de Prensa (monto de este impuesto)' && value)
-        register.metadata.pressStamp = value
-
-      if (key === 'Bomberos (monto de este impuesto)' && value)
-        register.metadata.firefighters = value
-
-      if (key === 'Tasa Municipal (monto de este impuesto)' && value)
-        register.metadata.municipalTax = value
-
-      if (key === 'Bebidas alcohólicas (monto de este impuesto)' && value)
-        register.metadata.alcoholicBeverages = value
-
-      if (key === 'Tabaco (monto de este impuesto)' && value)
-        register.metadata.tobacco = value
-
-      if (key === 'Cemento (monto de este impuesto)' && value)
-        register.metadata.cement = value
-
-      if (key === 'Bebidas no Alcohólicas (monto de este impuesto)' && value)
-        register.metadata.nonAlcoholicBeverages = value
-
-      if (key === 'Tarifa Portuaria (monto de este impuesto)' && value)
-        register.metadata.portFee = value
+    if (row['Petróleo (monto de este impuesto)'] > 0) {
+      row['metadata']['petroleum'] = row['Petróleo (monto de este impuesto)']
     }
 
-    registers.push({ ...register })
-    register.metadata = {}
-  })
+    if (row['Turismo Hospedaje (monto de este impuesto)'] > 0) {
+      row['metadata']['accommodation'] =
+        row['Turismo Hospedaje (monto de este impuesto)'] > 0
+    }
+    if (row['Turismo Pasajes (monto de este impuesto)'] > 0) {
+      row['metadata']['accommodation'] =
+        row['Turismo Pasajes (monto de este impuesto)']
+    }
 
-  return registers
+    if (row['Timbre de Prensa (monto de este impuesto)'] > 0) {
+      row['metadata']['pressStamp'] =
+        row['Timbre de Prensa (monto de este impuesto)']
+    }
+
+    if (row['Bomberos (monto de este impuesto)'] > 0) {
+      row['metadata']['firefighters'] = row['Bomberos (monto de este impuesto)']
+    }
+
+    if (row['Tasa Municipal (monto de este impuesto)'] > 0) {
+      row['metadata']['municipalTax'] =
+        row['Tasa Municipal (monto de este impuesto)']
+    }
+
+    if (row['Bebidas alcohólicas (monto de este impuesto)'] > 0) {
+      row['metadata']['alcoholicBeverages'] =
+        row['Bebidas alcohólicas (monto de este impuesto)']
+    }
+    delete row['Código de establecimiento']
+
+    if (row['Tabaco (monto de este impuesto)'] > 0) {
+      row['metadata']['tobacco'] = row['Tabaco (monto de este impuesto)']
+    }
+
+    if (row['Cemento (monto de este impuesto)'] > 0) {
+      row['metadata']['cement'] = row['Cemento (monto de este impuesto)']
+    }
+
+    if (row['Bebidas no Alcohólicas (monto de este impuesto)'] > 0) {
+      row['metadata']['onAlcoholicBeverages'] =
+        row['Bebidas no Alcohólicas (monto de este impuesto)']
+    }
+
+    if (row['Tarifa Portuaria (monto de este impuesto)'] > 0) {
+      row['metadata']['fee'] = row['Tarifa Portuaria (monto de este impuesto)']
+    }
+
+    row['cancelDate'] = row['Fecha de anulación']
+
+    delete row['NIT del Certificador']
+    delete row['Nombre completo del Certificador']
+    delete row['Petróleo (monto de este impuesto)']
+    delete row['Código de establecimiento']
+    delete row['Bebidas alcohólicas (monto de este impuesto']
+    delete row['Cemento (monto de este impuesto)']
+    delete row['Tabaco (monto de este impuesto)']
+    delete row['Bebidas alcohólicas ']
+    delete row['Tasa Municipal (monto de este impuesto)']
+    delete row['Bomberos (monto de este impuesto)']
+    delete row['Turismo Pasajes (monto de este impuesto)']
+    delete row['Bebidas no Alcohólicas (monto de este impuesto)']
+    delete row['Timbre de Prensa (monto de este impuesto)']
+    delete row['Tarifa Portuaria (monto de este impuesto)']
+    delete row['Marca de anulado']
+    delete row['Turismo Hospedaje (monto de este impuesto)']
+    delete row['Nombre del establecimiento']
+    delete row['Bebidas alcohólicas (monto de este impuesto)']
+
+    delete row['Fecha de anulación']
+    // }
+    //
+    console.log('row', row)
+    return row
+  })
 }
