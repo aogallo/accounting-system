@@ -98,6 +98,10 @@ export const normalizeDataToSave = (
     console.log('original row', rowT)
     row['metadata'] = {}
 
+    row['accountType'] = isPayable
+      ? AccountType.PAYABLE
+      : AccountType.RECEIVABLE
+
     row['date'] = row['Fecha de emisión']
     delete row['Fecha de emisión']
 
