@@ -1,0 +1,31 @@
+import { Account, AccountState, AccountType, Currency } from '@/models/Account'
+
+export const initialState: Account = {
+  date: '',
+  authorizationNumber: '',
+  dteNumber: '',
+  currency: Currency.GTQ,
+  iva: 0,
+  issuerName: '',
+  accountType: AccountType.PAYABLE,
+  type: '',
+  recipientName: '',
+  receiverId: '',
+  issuerId: '',
+  serie: '',
+  state: AccountState.VIGENTE,
+  amount: 0,
+  metadata: {
+    petroleum: 0,
+    accommodation: 0,
+    tickets: 0,
+    pressStamp: 0,
+    firefighters: 0,
+    municipalTax: 0,
+    tobacco: 0,
+    alcoholicBeverages: 0,
+    cement: 0,
+    nonAlcoholicBeverages: 0,
+    portFee: 0,
+  },
+}

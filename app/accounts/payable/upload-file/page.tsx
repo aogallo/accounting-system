@@ -2,8 +2,9 @@
 
 import { ChangeEvent, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
-import { headers, normalizeData, normalizeDataToSave } from './normalize-data'
+import { normalizeData, normalizeDataToSave } from './normalize-data'
 import { Button } from '@/app/ui/Button'
+import { payableAccountHeader } from '@/constants/PayableAccountHeader'
 
 export default function Page() {
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
@@ -70,7 +71,7 @@ export default function Page() {
         <table className='mt-2 border-collapse border border-slate-500'>
           <thead>
             <tr>
-              {headers.map((key) => (
+              {payableAccountHeader.map((key) => (
                 <th key={key} className='border border-slate-600'>
                   <h3 className='text-xs'>
                     {' '}
