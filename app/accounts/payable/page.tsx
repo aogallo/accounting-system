@@ -4,6 +4,8 @@ import {
 } from '@/app/ui/buttons'
 import { lusitana } from '@/app/ui/fonts'
 
+import AccountTable from '@/app/ui/accounts/AccountTable'
+
 export default async function Page() {
   return (
     <div className='w-full'>
@@ -16,7 +18,7 @@ export default async function Page() {
         <UploadPayableAccountFile />
       </div>
       {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}> */}
-      {/*   <Table query={query} currentPage={currentPage} /> */}
+      <AccountTable query={''} currentPage={0} />
       {/* </Suspense> */}
       {/* <div className="mt-5 flex w-full justify-center"> */}
       {/*   <Pagination totalPages={totalPages} /> */}
