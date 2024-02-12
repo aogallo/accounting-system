@@ -1,4 +1,4 @@
-import { prop } from '@typegoose/typegoose'
+import { modelOptions, prop } from '@typegoose/typegoose'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 
 export enum Currency {
@@ -76,7 +76,7 @@ export class Account extends TimeStamps {
   public receiverId: string //nit del receptor
 
   @prop()
-  public recipientName: string //nombre del receptor
+  public receiverName: string //nombre del receptor
 
   @prop({ enum: Currency })
   public currency: Currency
@@ -93,6 +93,6 @@ export class Account extends TimeStamps {
   @prop({ enum: AccountType })
   public accountType: AccountType
 
-  @prop()
+  @prop({ allowMixed: 0 })
   public metadata: Partial<AccountMetadata>
 }
