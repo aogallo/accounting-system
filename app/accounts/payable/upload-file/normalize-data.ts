@@ -63,7 +63,7 @@ export const normalizeDataToSave = (
     row['receiverId'] = row['ID del receptor']
     delete row['ID del receptor']
 
-    row['recipientName'] = row['Nombre completo del receptor']
+    row['receiverName'] = row['Nombre completo del receptor']
     delete row['Nombre completo del receptor']
 
     row['currency'] = row['Moneda']

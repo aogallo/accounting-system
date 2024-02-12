@@ -10,7 +10,11 @@ export async function dbConnect() {
   }
 
   const db = await connect(
-    process.env.MONGODB_URI || 'mongodb://localhost:27017/nextjs'
+    process.env.MONGODB_URI || 'mongodb://localhost:27017/nextjs',
+    {
+      retryWrites: false,
+      dbName: 'erp',
+    }
   )
   conn.isConnected = db.connections[0].readyState === 1
 }
