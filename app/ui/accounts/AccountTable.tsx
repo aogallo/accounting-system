@@ -31,6 +31,9 @@ export default async function AccountTable({ query, currentPage }: TableProps) {
                   Nit del receptor
                 </th>
                 <th scope='col' className='px-3 py-5 font-medium'>
+                  Nombre del receptor
+                </th>
+                <th scope='col' className='px-3 py-5 font-medium'>
                   Moneda
                 </th>
                 <th scope='col' className='px-3 py-5 font-medium'>
@@ -73,6 +76,21 @@ export default async function AccountTable({ query, currentPage }: TableProps) {
                   </td>
                   <td className='whitespace-nowrap py-3 pl-6 pr-3'>
                     {account.receiverName}
+                  </td>
+                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                    {account.currency}
+                  </td>
+                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                    {account.amount}
+                  </td>
+                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                    {account.state}
+                  </td>
+                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                    {account.cancellationDate}
+                  </td>
+                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                    {account.iva}
                   </td>
                 </tr>
               ))}

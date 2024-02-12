@@ -128,7 +128,7 @@ export const normalizeDataToSave = (
       row['metadata']['fee'] = row['Tarifa Portuaria (monto de este impuesto)']
     }
 
-    row['cancelDate'] = row['Fecha de anulación']
+    row['cancellationDate'] = row['Fecha de anulación']
 
     delete row['NIT del Certificador']
     delete row['Nombre completo del Certificador']

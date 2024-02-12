@@ -93,6 +93,9 @@ export class Account extends TimeStamps {
   @prop({ enum: AccountType })
   public accountType: AccountType
 
+  @prop()
+  public cancellationDate: string
+
   @prop({ allowMixed: 0 })
   public metadata: Partial<AccountMetadata>
 }
