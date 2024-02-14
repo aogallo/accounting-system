@@ -1,5 +1,6 @@
-import { modelOptions, prop } from '@typegoose/typegoose'
+import { prop, Ref } from '@typegoose/typegoose'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+import { Issuer } from './Issuer'
 
 export enum Currency {
   GTQ = 'GTQ',
@@ -66,11 +67,17 @@ export class Account extends TimeStamps {
   @prop()
   public dteNumber: string
 
-  @prop()
-  public issuerId: string //nit del emisor
+  // @prop({ ref: () => Nested }) // for one
+  // public nested: Ref<Nested>;
 
-  @prop()
-  public issuerName: string //nombre del emisor
+  @prop({ ref: () => Issuer })
+  public issuerId: Issuer
+
+  // @prop()
+  // public issuerId: string //nit del emisor
+  //
+  // @prop()
+  // public issuerName: string //nombre del emisor
 
   @prop()
   public receiverId: string //nit del receptor
@@ -96,6 +103,6 @@ export class Account extends TimeStamps {
   @prop()
   public cancellationDate: string
 
-  @prop({ allowMixed: 0 })
+  @prop({ type: () => AccountMetadata })
   public metadata: Partial<AccountMetadata>
 }

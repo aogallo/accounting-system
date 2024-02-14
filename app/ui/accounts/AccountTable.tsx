@@ -1,5 +1,7 @@
 import { fetchAccount } from '@/app/lib/actions'
 import { TableProps } from '@/app/lib/definitions'
+import { UpdateInvoice } from '../buttons'
+import { formatDateToLocal } from '@/app/lib/utils'
 
 export default async function AccountTable({ query, currentPage }: TableProps) {
   const accounts = await fetchAccount('', 1)
@@ -48,6 +50,9 @@ export default async function AccountTable({ query, currentPage }: TableProps) {
                 <th scope='col' className='px-3 py-5 font-medium'>
                   IVA
                 </th>
+                <th scope='col' className='px-3 py-5 font-medium'>
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody className='bg-white'>
@@ -57,9 +62,9 @@ export default async function AccountTable({ query, currentPage }: TableProps) {
                   className='w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg'
                 >
                   <td className='whitespace-nowrap py-3 pl-6 pr-3'>
-                    {account.date}
+                    {formatDateToLocal(account.date)}
                   </td>
-                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                  <td className='whitespace-break-spaces py-3 pl-6 pr-3'>
                     {account.authorizationNumber}
                   </td>
                   <td className='whitespace-nowrap py-3 pl-6 pr-3'>
@@ -91,6 +96,12 @@ export default async function AccountTable({ query, currentPage }: TableProps) {
                   </td>
                   <td className='whitespace-nowrap py-3 pl-6 pr-3'>
                     {account.iva}
+                  </td>
+                  <td className='whitespace-nowrap py-3 pl-6 pr-3'>
+                    <div className='flex justify-end gap-3'>
+                      <UpdateInvoice id={account.id} />
+                      {/* <DeleteInvoice id={invoice.id} /> */}
+                    </div>
                   </td>
                 </tr>
               ))}

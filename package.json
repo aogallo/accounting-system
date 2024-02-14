@@ -6,11 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node -r dotenv/config ./scripts/users.js"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@typegoose/typegoose": "^12.1.0",
+    "bcrypt": "^5.1.1",
     "clsx": "^2.1.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.1.1",
@@ -21,6 +23,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
