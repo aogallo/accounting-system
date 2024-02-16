@@ -8,9 +8,11 @@ export async function POST(request: NextRequest) {
   console.log(body)
 
   body.companies.forEach(async (element: Company) => {
-    const issuer = CommpanyModel.findOne({
-      name: element.name,
+    const issuer = await CommpanyModel.findOne({
+      nit: element.nit,
     })
+
+    console.log(issuer)
 
     if (issuer === null) {
       const newIssuer = await CommpanyModel.create(element)
@@ -18,27 +20,26 @@ export async function POST(request: NextRequest) {
     }
   })
 
-  // const url = `${process.env.MONGO_API as string}/action/insertMany`
+  const url = `${process.env.MONGO_API as string}/action/insertMany`
 
-  // const res = await fetch(url, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Accept: 'application/json',
-  //     'API-Key': process.env.MONGO_API_KEY!,
-  //   },
-  //   body: JSON.stringify({
-  //     dataSource: 'Cluster0',
-  //     database: 'erp',
-  //     collection: 'invoices',
-  //     documents: body,
-  //   }),
-  // })
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'API-Key': process.env.MONGO_API_KEY!,
+    },
+    body: JSON.stringify({
+      dataSource: 'Cluster0',
+      database: 'erp',
+      collection: 'invoices',
+      documents: body.data,
+    }),
+  })
+  const data = await res.json()
+  console.log('data', data)
 
-  // const data = await res.json()
-  // console.log('data', data)
-
-  return Response.json([])
+  return Response.json(data)
 }
 
 export async function GET() {
