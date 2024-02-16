@@ -1,4 +1,6 @@
-import { AccountType } from '@/models/Account'
+'use server'
+
+import { InvoiceType } from '@/models/Invoice'
 
 const noPayableValues = [
   'NIT del Certificador',
@@ -30,14 +32,16 @@ export const normalizeDataToSave = (
   data: Record<string, any>[],
   isPayable = true
 ) => {
-  return data.map((rowT) => {
+  const issuers: Record<string, string>[] = []
+
+  const newData = data.map((rowT) => {
     const row = { ...rowT }
     console.log('original row', rowT)
     row['metadata'] = {}
 
     row['accountType'] = isPayable
-      ? AccountType.PAYABLE
-      : AccountType.RECEIVABLE
+      ? InvoiceType.PAYABLE
+      : InvoiceType.RECEIVABLE
 
     row['date'] = row['Fecha de emisión']
     delete row['Fecha de emisión']
@@ -57,13 +61,21 @@ export const normalizeDataToSave = (
     row['issuerId'] = row['NIT del emisor']
     delete row['NIT del emisor']
 
-    row['issuerName'] = row['Nombre completo del emisor']
+    issuers.push({
+      nit: row['issuerId'],
+      name: row['Nombre completo del emisor'],
+    })
+
     delete row['Nombre completo del emisor']
 
     row['receiverId'] = row['ID del receptor']
     delete row['ID del receptor']
 
-    row['receiverName'] = row['Nombre completo del receptor']
+    issuers.push({
+      nit: row['receiverId'],
+      name: row['Nombre completo del receptor'],
+    })
+
     delete row['Nombre completo del receptor']
 
     row['currency'] = row['Moneda']
@@ -148,11 +160,11 @@ export const normalizeDataToSave = (
     delete row['Turismo Hospedaje (monto de este impuesto)']
     delete row['Nombre del establecimiento']
     delete row['Bebidas alcohólicas (monto de este impuesto)']
-
     delete row['Fecha de anulación']
-    // }
-    //
+
     console.log('row', row)
     return row
   })
+
+  return [newData, issuers]
 }

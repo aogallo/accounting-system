@@ -1,8 +1,23 @@
+import { CommpanyModel, InvoiceModel } from '@/models'
+import { Company } from '@/models/Company'
 import { NextRequest } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
+
+  body.companies.forEach(async (element: Company) => {
+    const issuer = CommpanyModel.findOne({
+      name: element.name,
+    })
+
+    if (issuer === null) {
+      const newIssuer = await CommpanyModel.create(element)
+      await newIssuer.save()
+    }
+  })
+
   const url = `${process.env.MONGO_API as string}/action/insertMany`
+
   const res = await fetch(url, {
     method: 'POST',
     headers: {
@@ -13,7 +28,7 @@ export async function POST(request: NextRequest) {
     body: JSON.stringify({
       dataSource: 'Cluster0',
       database: 'erp',
-      collection: 'accounts',
+      collection: 'invoices',
       documents: body,
     }),
   })

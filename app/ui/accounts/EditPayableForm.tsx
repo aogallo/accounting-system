@@ -1,9 +1,9 @@
-import { Account } from '@/models/Account'
+import { Invoice } from '@/models/Invoice'
 
 export default async function EditPayableForm({
   account,
 }: {
-  account: Account
+  account: Invoice
 }) {
   return (
     <form>

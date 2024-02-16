@@ -1,7 +1,6 @@
-import { AccountModel } from '@/models'
 import { dbConnect } from './mongodb'
-import { Account } from '@/models/Account'
-import { AccountStateForm } from './definitions'
+import { Invoice } from '@/models/Invoice'
+import { InvoiceModel } from '@/models'
 
 const ITEMS_PER_PAGE = 10
 
@@ -10,7 +9,7 @@ export async function fetchAccount(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
   try {
-    return await AccountModel.find(
+    return await InvoiceModel.find(
       {},
       {},
       { limit: ITEMS_PER_PAGE, skip: offset }
@@ -21,16 +20,18 @@ export async function fetchAccount(query: string, currentPage: number) {
   }
 }
 
-export async function fetchAccountById(id: string): Promise<Account | null> {
+export async function fetchAccountById(id: string): Promise<Invoice | null> {
   await dbConnect()
   try {
-    return await AccountModel.findById(id)
+    return await InvoiceModel.findById(id)
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error(`Failed to fetch payable account ${id}`)
   }
 }
 
-export async function updateAccount(id: string, prevState: AccountStateForm, formData:FormData) {
-  const validatedFields =
-}
+// export async function updateAccount(
+//   id: string,
+//   prevState: AccountStateForm,
+//   formData: FormData
+// ) {}

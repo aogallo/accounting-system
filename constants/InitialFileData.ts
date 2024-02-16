@@ -1,19 +1,18 @@
-import { Account, AccountState, AccountType, Currency } from '@/models/Account'
+import { Invoice, InvoiceState, InvoiceType, Currency } from '@/models/Invoice'
 
-export const initialState: Account = {
+export const initialState: Invoice = {
   date: '',
   authorizationNumber: '',
   dteNumber: '',
   currency: Currency.GTQ,
   iva: 0,
   issuerName: '',
-  accountType: AccountType.PAYABLE,
+  accountType: InvoiceType.PAYABLE,
   type: '',
-  recipientName: '',
-  receiverId: '',
-  issuerId: '',
+  receiverId: {},
+  issuerId: {},
   serie: '',
-  state: AccountState.VIGENTE,
+  state: InvoiceState.VIGENTE,
   amount: 0,
   metadata: {
     petroleum: 0,

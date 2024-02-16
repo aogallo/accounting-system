@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState,useEffect } from 'react'
 import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
 import { Button } from '@/app/ui/Button'
@@ -18,7 +18,12 @@ export default function Page() {
   ]
   const [isLoading, setIsLoading] = useState(false)
 
-  const [dataToSave, setDataToSave] = useState<Record<string, any>[]>([])
+  type DataSave = {
+    data: Record<string, any>[]
+    companies: Record<string, string>[]
+  }
+
+  const [dataToSave, setDataToSave] = useState<DataSave>()
 
   const handleChange = (file: ChangeEvent<HTMLInputElement>) => {
     const newFile = file.target.files?.[0]
@@ -39,29 +44,30 @@ export default function Page() {
       const workbook = XLSX.read(file, { type: 'buffer' })
       const worksheetName = workbook.SheetNames[0]
       const worksheet = workbook.Sheets[worksheetName]
-      const data = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet)
-      if (data) {
-        setDataToSave(normalizeDataToSave(data, true))
-        setFileData(normalizeData(data, true))
+      const sheetData = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet)
+      if (sheetData) {
+        const [data, companies] = normalizeDataToSave(sheetData, true)
+        setDataToSave({ data, companies })
+        setFileData(normalizeData(sheetData, true))
       }
     }
   }, [file])
 
   const handleCreatePayableAccounts = async () => {
-    try {
-      setIsLoading(true)
-      await fetch('/api/accounts/payable', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSave),
-      })
-    } catch (error) {
-      console.log('error', error)
-    } finally {
-      setIsLoading(false)
-    }
+    // try {
+    setIsLoading(true)
+    //   await fetch('/api/accounts/payable', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(dataToSave),
+    //   })
+    // } catch (error) {
+    //   console.log('error', error)
+    // } finally {
+    //   setIsLoading(false)
+    // }
   }
 
   return (

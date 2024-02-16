@@ -1,20 +1,19 @@
 import { addModelToTypegoose, buildSchema } from '@typegoose/typegoose'
-import { Account } from './Account'
 import { model, models } from 'mongoose'
-import { Issuer } from './Issuer'
 import { User } from './User'
+import { Company } from './Company'
+import { Invoice } from './Invoice'
 
-// Account Model
-const accountSchema = buildSchema(Account)
-const accountModel = models.Account || model('Account', accountSchema)
-export const AccountModel = addModelToTypegoose(accountModel, Account)
-
-// Issuer Model (emisor)
-const issuerSchema = buildSchema(Issuer)
-const issuerModel = models.Issuer || model('Issuer', issuerSchema)
-export const IssuerModel = addModelToTypegoose(issuerModel, Issuer)
-
+// Invoice ModelInvoice
+const invoiceSchema = buildSchema(Invoice)
+const invoiceModel = models.Invoice || model('Invoice', invoiceSchema)
+export const InvoiceModel = addModelToTypegoose(invoiceModel, Invoice)
 // User Model
 const userSchema = buildSchema(User)
 const userModel = models.User || model('User', userSchema)
 export const UserModel = addModelToTypegoose(userModel, User)
+
+// Company Model
+const companySchema = buildSchema(Company)
+const companyModel = models.Company || model('Company', companySchema)
+export const CommpanyModel = addModelToTypegoose(companyModel, Company)

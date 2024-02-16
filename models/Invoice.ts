@@ -1,22 +1,22 @@
-import { prop, Ref } from '@typegoose/typegoose'
+import { prop } from '@typegoose/typegoose'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
-import { Issuer } from './Issuer'
+import { Company } from './Company'
 
 export enum Currency {
   GTQ = 'GTQ',
 }
 
-export enum AccountState {
+export enum InvoiceState {
   VIGENTE = 'VIGENTE',
   ANULADO = 'ANULADO',
 }
 
-export enum AccountType {
+export enum InvoiceType {
   PAYABLE = 'PAYABLE',
   RECEIVABLE = 'RECEIVABLE',
 }
 
-export class AccountMetadata {
+export class InvoiceMetadata {
   @prop()
   public petroleum: number
 
@@ -51,7 +51,7 @@ export class AccountMetadata {
   public portFee: number
 }
 
-export class Account extends TimeStamps {
+export class Invoice extends TimeStamps {
   @prop()
   public date: string
 
@@ -67,23 +67,11 @@ export class Account extends TimeStamps {
   @prop()
   public dteNumber: string
 
-  // @prop({ ref: () => Nested }) // for one
-  // public nested: Ref<Nested>;
-
-  @prop({ ref: () => Issuer })
-  public issuerId: Issuer
-
-  // @prop()
-  // public issuerId: string //nit del emisor
-  //
-  // @prop()
-  // public issuerName: string //nombre del emisor
+  @prop({ ref: () => Company })
+  public issuerId: Company
 
   @prop()
-  public receiverId: string //nit del receptor
-
-  @prop()
-  public receiverName: string //nombre del receptor
+  public receiverId: Company //nit del receptor
 
   @prop({ enum: Currency })
   public currency: Currency
@@ -91,18 +79,18 @@ export class Account extends TimeStamps {
   @prop()
   public amount: number
 
-  @prop({ enum: AccountState })
-  public state: AccountState
+  @prop({ enum: InvoiceState })
+  public state: InvoiceState
 
   @prop()
   public iva: number
 
-  @prop({ enum: AccountType })
-  public accountType: AccountType
+  @prop({ enum: InvoiceType })
+  public accountType: InvoiceType
 
   @prop()
   public cancellationDate: string
 
-  @prop({ type: () => AccountMetadata })
-  public metadata: Partial<AccountMetadata>
+  @prop({ type: () => InvoiceMetadata })
+  public metadata: Partial<InvoiceMetadata>
 }
