@@ -1,6 +1,6 @@
 'use client'
 
-import { ChangeEvent, useState,useEffect } from 'react'
+import { ChangeEvent, useState, useEffect } from 'react'
 import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
 import { Button } from '@/app/ui/Button'
@@ -24,6 +24,7 @@ export default function Page() {
   }
 
   const [dataToSave, setDataToSave] = useState<DataSave>()
+  // const [dataToSave, setDataToSave] = useState<Record<string, any>[]>()
 
   const handleChange = (file: ChangeEvent<HTMLInputElement>) => {
     const newFile = file.target.files?.[0]
@@ -54,20 +55,20 @@ export default function Page() {
   }, [file])
 
   const handleCreatePayableAccounts = async () => {
-    // try {
-    setIsLoading(true)
-    //   await fetch('/api/accounts/payable', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(dataToSave),
-    //   })
-    // } catch (error) {
-    //   console.log('error', error)
-    // } finally {
-    //   setIsLoading(false)
-    // }
+    try {
+      setIsLoading(true)
+      await fetch('/api/accounts/payable', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSave),
+      })
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
