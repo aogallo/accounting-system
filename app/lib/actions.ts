@@ -10,7 +10,7 @@ export async function fetchAccount(query: string, currentPage: number) {
 
   try {
     return await InvoiceModel.find(
-      {},
+      { accountType: 'PAYABLE' },
       {},
       { limit: ITEMS_PER_PAGE, skip: offset }
     ).populate('company')

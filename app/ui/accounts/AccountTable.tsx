@@ -81,7 +81,7 @@ export default async function AccountTable({ query, currentPage }: TableProps) {
                     {account.receiverId}
                   </td>
                   <td className='whitespace-nowrap py-3 pl-6 pr-3'>
-                    {account.receiverName}
+                    {account.receiverId}
                   </td>
                   <td className='whitespace-nowrap py-3 pl-6 pr-3'>
                     {account.currency}

@@ -1,24 +1,34 @@
-import { CommpanyModel, InvoiceModel } from '@/models'
+import { CommpanyModel } from '@/models'
 import { Company } from '@/models/Company'
+import { Invoice } from '@/models/Invoice'
 import { NextRequest } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
 
-  console.log(body)
+  const newCompanies: Company[] = []
+  const invoices: Invoice[] = []
+
+  // console.log(body)
 
   body.companies.forEach(async (element: Company) => {
     const issuer = await CommpanyModel.findOne({
       nit: element.nit,
     })
 
-    console.log(issuer)
-
     if (issuer === null) {
       const newIssuer = await CommpanyModel.create(element)
       await newIssuer.save()
+      newCompanies.push(newIssuer)
+    } else {
+      newCompanies.push(issuer)
     }
   })
+
+  body.data.map(
+    (invoice) =>
+      (data['issuer'] = newCompanies.find((company) => company.id)[0])
+  )
 
   const url = `${process.env.MONGO_API as string}/action/insertMany`
 

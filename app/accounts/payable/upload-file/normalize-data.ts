@@ -54,7 +54,7 @@ export const normalizeDataToSave = (
 
       row['dteNumber'] = row['Número del DTE']
 
-      row['issuerId'] = `${row['NIT del emisor']}`
+      row['issuer'] = `${row['NIT del emisor']}`
 
       companies.findIndex((e) => e.nit === row['NIT del emisor']) === -1
         ? companies.push({
@@ -65,7 +65,7 @@ export const normalizeDataToSave = (
       // row['issuerName'] = row['Nombre completo del emisor']
       delete row['Nombre completo del emisor']
 
-      row['receiverId'] = `${row['ID del receptor']}`
+      row['receiver'] = `${row['ID del receptor']}`
       // row['receiverName'] = row['Nombre completo del receptor']
 
       companies.findIndex((e) => e.nit === row['ID del receptor']) === -1
