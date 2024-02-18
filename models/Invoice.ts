@@ -68,10 +68,10 @@ export class Invoice extends TimeStamps {
   public dteNumber: string
 
   @prop({ ref: () => Company })
-  public issuerId: Company
+  public issuerId: Company['nit']
 
-  @prop()
-  public receiverId: Company //nit del receptor
+  @prop({ ref: () => Company })
+  public receiverId: Company['nit'] //nit del receptor
 
   @prop({ enum: Currency })
   public currency: Currency

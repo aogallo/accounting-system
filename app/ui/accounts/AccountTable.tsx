@@ -5,6 +5,7 @@ import { formatDateToLocal } from '@/app/lib/utils'
 
 export default async function AccountTable({ query, currentPage }: TableProps) {
   const accounts = await fetchAccount('', 1)
+  console.log(accounts)
 
   return (
     <div className='mt-6 flow-root'>

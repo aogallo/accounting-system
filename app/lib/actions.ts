@@ -13,7 +13,7 @@ export async function fetchAccount(query: string, currentPage: number) {
       {},
       {},
       { limit: ITEMS_PER_PAGE, skip: offset }
-    )
+    ).populate('company')
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error('Failed to fetch payable accounts')
