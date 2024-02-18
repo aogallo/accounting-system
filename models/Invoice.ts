@@ -1,6 +1,7 @@
 import { prop } from '@typegoose/typegoose'
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
 import { Company } from './Company'
+import { ObjectId } from 'mongodb'
 
 export enum Currency {
   GTQ = 'GTQ',
@@ -53,6 +54,9 @@ export class InvoiceMetadata {
 
 export class Invoice extends TimeStamps {
   @prop()
+  public id: ObjectId
+
+  @prop()
   public date: string
 
   @prop()
@@ -68,10 +72,10 @@ export class Invoice extends TimeStamps {
   public dteNumber: string
 
   @prop({ ref: () => Company })
-  public issuerId: Company['nit']
+  public issuer: Company
 
   @prop({ ref: () => Company })
-  public receiverId: Company['nit'] //nit del receptor
+  public receiver: Company //nit del receptor
 
   @prop({ enum: Currency })
   public currency: Currency

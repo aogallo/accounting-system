@@ -1,7 +1,10 @@
 import { prop } from '@typegoose/typegoose'
-import { Timestamp } from 'mongodb'
+import { ObjectId, Timestamp } from 'mongodb'
 
 export class Company extends Timestamp {
+  @prop()
+  public id: ObjectId
+
   @prop()
   public name: string
 
