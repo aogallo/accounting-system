@@ -3,6 +3,7 @@
 import { CommpanyModel, InvoiceModel } from '@/models'
 import { AnyBulkWriteOperation } from 'mongodb'
 import { dbConnect } from '../mongodb'
+import { revalidatePath } from 'next/cache'
 
 export const createOrUpdateCompanies = async (
   companies: Record<string, string>[]
@@ -99,6 +100,7 @@ export async function uploadExcel({
       .then((result) => console.log(JSON.stringify(result, null, 2)))
       .catch((error) => console.error(error))
 
+    revalidatePath('/invoices/payable')
     return [{ success: true, message: 'Upload file' }]
   } catch (error) {
     console.error('error', error)
