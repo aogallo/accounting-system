@@ -4,7 +4,7 @@ import {
 } from '@/app/ui/buttons'
 import { lusitana } from '@/app/ui/fonts'
 
-import AccountTable from '@/app/ui/accounts/AccountTable'
+import AccountTable from '@/app/ui/invoices/AccountTable'
 
 export default async function Page() {
   return (

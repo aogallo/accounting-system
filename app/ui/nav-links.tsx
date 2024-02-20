@@ -20,12 +20,12 @@ const links: LinksType[] = [
   { name: 'Home', href: '/', icon: HomeIcon },
   {
     name: 'Payable Accounts',
-    href: '/accounts/payable',
+    href: '/invoices/payable',
     icon: CreditCardIcon,
   },
   {
     name: 'Receivable Accounts ',
-    href: '/accounts/receivable',
+    href: '/invoices/receivable',
     icon: BanknotesIcon,
   },
   {

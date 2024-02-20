@@ -5,6 +5,10 @@ import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
 import { Button } from '@/app/ui/Button'
 import { payableAccountHeader } from '@/constants/PayableAccountHeader'
+import {
+  createOrUpdateCompanies,
+  uploadExcel,
+} from '@/app/lib/actions/ExcelFile'
 
 export default function Page() {
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
@@ -57,13 +61,11 @@ export default function Page() {
   const handleCreatePayableAccounts = async () => {
     try {
       setIsLoading(true)
-      await fetch('/api/accounts/payable', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSave),
-      })
+      if (dataToSave) {
+        await createOrUpdateCompanies(dataToSave.companies)
+        const result = await uploadExcel(dataToSave.data)
+        console.log('result', result)
+      }
     } catch (error) {
       console.log('error', error)
     } finally {

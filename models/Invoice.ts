@@ -1,5 +1,4 @@
-import { prop } from '@typegoose/typegoose'
-import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+import { modelOptions, prop } from '@typegoose/typegoose'
 import { Company } from './Company'
 import { ObjectId } from 'mongodb'
 
@@ -8,8 +7,8 @@ export enum Currency {
 }
 
 export enum InvoiceState {
-  VIGENTE = 'VIGENTE',
-  ANULADO = 'ANULADO',
+  VIGENTE = 'Vigente',
+  ANULADO = 'Anulado',
 }
 
 export enum InvoiceType {
@@ -52,7 +51,8 @@ export class InvoiceMetadata {
   public portFee: number
 }
 
-export class Invoice extends TimeStamps {
+@modelOptions({ schemaOptions: { timestamps: true, versionKey:false } })
+export class Invoice {
   @prop()
   public id: ObjectId
 

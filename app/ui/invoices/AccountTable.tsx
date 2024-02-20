@@ -1,10 +1,10 @@
-import { fetchAccount } from '@/app/lib/actions'
+import {  fetchInvoices } from '@/app/lib/actions'
 import { TableProps } from '@/app/lib/definitions'
 import { UpdateInvoice } from '../buttons'
 import { formatDateToLocal } from '@/app/lib/utils'
 
 export default async function AccountTable({ query, currentPage }: TableProps) {
-  const accounts = await fetchAccount('', 1)
+  const accounts = await fetchInvoices('', 1)
   console.log(accounts)
 
   return (

@@ -1,60 +1,66 @@
 'use server'
-import fs from 'node:fs'
 
-import {
-  normalizeData,
-  normalizeDataToSave,
-} from '@/app/accounts/payable/upload-file/normalize-data'
-import * as XLSX from 'xlsx'
-//
-// fileReader = new FileReader()
-// fileReader.readAsArrayBuffer(newFile)
-// fileReader.onload = (e) => {
-//   file = e.target?.result
-//
-//   if (file) {
-//     const workbook = XLSX.read(file, { type: 'buffer' })
-//     const worksheetName = workbook.SheetNames[0]
-//     const worksheet = workbook.Sheets[worksheetName]
-//     const sheetData =
-//       XLSX.utils.sheet_to_json<Record<string, any>>(worksheet)
-//     if (sheetData) {
-//       const [data, companies] = normalizeDataToSave(sheetData, true)
-//       console.log('data', data)
-//       console.log('companies', companies)
-//       // setDataToSave({ data, companies })
-//       fileData = normalizeData(sheetData, true)
-//     }
-//   }
-// }
-//
+import { CommpanyModel, InvoiceModel } from '@/models'
+import { AnyBulkWriteOperation, } from 'mongodb'
+import { dbConnect } from '../mongodb'
 
-export async function uploadExcel(data: FormData) {
-  const file: File = data.get('file') as File
-  // const fileReader = new FileReader()
-  // let fileData: Record<string, any>[] = []
-  // fileReader.readAsArrayBuffer(file)
-  // fileReader.onload = (e) => {
-  //   const newFile = e.target?.result
-  //
-  //   if (newFile) {
-  //     const workbook = XLSX.read(newFile, { type: 'buffer' })
-  //
-  //     const worksheetName = workbook.SheetNames[0]
-  //     const worksheet = workbook.Sheets[worksheetName]
-  //     const sheetData = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet)
-  //
-  //     if (sheetData) {
-  //       const data = normalizeDataToSave(sheetData, true)
-  //       console.log('data', data)
-  //       fileData = normalizeData(sheetData, true)
-  //     }
-  //   }
-  // }
-  // return fileData
-  // try {
-  //   const data = await fs.readFileSync(file)
-  // } catch (error) {
-  //
-  // }
+export const createOrUpdateCompanies = async (
+  companies: Record<string, string>[]
+) => {
+      await dbConnect()
+
+  const bulk: AnyBulkWriteOperation[] = []
+  companies.forEach(async (company) => {
+    const updateDoc = {
+      updateOne: {
+        filter: { nit: company.nit },
+        update: company,
+        upsert: true,
+      },
+    }
+
+    bulk.push(updateDoc)
+  })
+
+  CommpanyModel.bulkWrite(bulk)
+    .then((result) => console.log(JSON.stringify(result, null, 2)))
+    .catch((error) => console.error(error))
+}
+
+export async function uploadExcel(data: Record<string, any>[]) {
+  try {
+    await dbConnect()
+    const dbCompanies = await CommpanyModel.find()
+
+    if (dbCompanies.length === 0) {
+      return [{ success: false, message: 'Companies failed to upload' }]
+    }
+
+    const invoices = data.map((invoice: Record<string, any>) => {
+      let company = dbCompanies.find(
+        (company) => company.nit === invoice.issuer
+      )
+
+      if (company) {
+        invoice['issuer'] = company.id
+      }
+
+      company = dbCompanies.find((comp) => comp.nit === invoice.receiver)
+
+      if (company) {
+        invoice['receiver'] = company.id
+      }
+
+      return invoice
+    })
+
+    console.info('invoices', invoices)
+
+    await InvoiceModel.insertMany(invoices)
+
+    return [{ success: true, message: 'Upload file' }]
+  } catch (error) {
+    console.error('error', error)
+    return [{ success: false, message: 'Failed to upload file' }]
+  }
 }
