@@ -1,3 +1,4 @@
+import { createOrUpdateCompanies } from '@/app/lib/actions/ExcelFile'
 import { InvoiceType } from '@/app/lib/definitions'
 
 const noPayableValues = [
@@ -26,7 +27,7 @@ export const normalizeData = (
   })
 }
 
-export const normalizeDataToSave = (
+export const normalizeDataToSave = async (
   data: Record<string, any>[],
   isPayable = true
 ) => {
@@ -56,26 +57,24 @@ export const normalizeDataToSave = (
 
       row['issuer'] = `${row['NIT del emisor']}`
 
-      companies.findIndex((e) => e.nit === row['NIT del emisor']) === -1
-        ? companies.push({
-            nit: `${row['NIT del emisor']}`,
-            name: row['Nombre completo del emisor'],
-          })
-        : console.log(`emisor already exists}`)
+      companies.findIndex((e) => e.nit === row['NIT del emisor']) === -1 &&
+        companies.push({
+          nit: `${row['NIT del emisor']}`,
+          name: row['Nombre completo del emisor'],
+        })
       // row['issuerName'] = row['Nombre completo del emisor']
       delete row['Nombre completo del emisor']
 
       row['receiver'] = `${row['ID del receptor']}`
       // row['receiverName'] = row['Nombre completo del receptor']
 
-      companies.findIndex((e) => e.nit === row['ID del receptor']) === -1
-        ? companies.push({
-            // TODO: Replace with tuples type
+      companies.findIndex((e) => e.nit === row['ID del receptor']) === -1 &&
+        companies.push({
+          // TODO: Replace with tuples type
 
-            nit: `${row['ID del receptor']}`,
-            name: row['Nombre completo del receptor'],
-          })
-        : console.log(`receptor already exists}`)
+          nit: `${row['ID del receptor']}`,
+          name: row['Nombre completo del receptor'],
+        })
 
       delete row['ID del receptor']
       delete row['Nombre completo del receptor']
@@ -182,6 +181,8 @@ export const normalizeDataToSave = (
       return {}
     }
   })
+
+  await createOrUpdateCompanies(companies)
 
   return [newData, companies]
 }
