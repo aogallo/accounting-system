@@ -53,33 +53,8 @@ export class InvoiceMetadata {
 
 @modelOptions({
   schemaOptions: {
-    _id: false,
     timestamps: true,
     versionKey: false,
-    toObject: {
-      transform(doc, ret, options) {
-        console.log('doc', doc)
-        console.log('ret', ret)
-        console.log('options', options)
-
-        const { _id, ...newDoc } = doc
-        newDoc.id = _id
-
-        return newDoc
-      },
-    },
-    toJSON: {
-      transform(doc, ret, options) {
-        console.log('doc', doc)
-        console.log('ret', ret)
-        console.log('options', options)
-
-        const { _id, ...newDoc } = doc
-        newDoc.id = _id
-
-        return newDoc
-      },
-    },
   },
 })
 export class Invoice {
