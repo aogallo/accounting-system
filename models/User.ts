@@ -1,7 +1,7 @@
-import { prop } from '@typegoose/typegoose'
-import { Timestamp } from 'mongodb'
+import { prop, modelOptions } from '@typegoose/typegoose'
 
-export class User extends Timestamp {
+@modelOptions({ schemaOptions: { timestamps: true } })
+export class User {
   @prop({ unique: true })
   public user: string
 

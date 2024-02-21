@@ -1,10 +1,11 @@
-import { prop } from '@typegoose/typegoose'
-import { Timestamp } from 'mongodb'
+import { prop, modelOptions, index } from '@typegoose/typegoose'
 
-export class Company extends Timestamp {
+@modelOptions({ schemaOptions: { timestamps: true, versionKey: false } })
+@index({nit: 1}, {unique:true})
+export class Company {
   @prop()
   public name: string
 
-  @prop({ unique: true })
+  @prop({required:true, unique: true })
   public nit: string
 }

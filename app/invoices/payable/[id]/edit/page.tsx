@@ -1,7 +1,7 @@
 import { fetchAccountById } from '@/app/lib/actions'
 import Breadcrumbs from '@/app/ui/Breadcrumbs'
-import EditPayableForm from '@/app/ui/accounts/EditPayableForm'
-import PayableEditForm from '@/app/ui/accounts/EditPayableForm'
+import EditPayableForm from '@/app/ui/invoices/EditPayableForm'
+import PayableEditForm from '@/app/ui/invoices/EditPayableForm'
 
 type PageProps = {
   params: {
@@ -17,10 +17,10 @@ export default async function Page({ params }: PageProps) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Payable Accounts', href: '/accounts/payable' },
+          { label: 'Payable Accounts', href: '/invoices/payable' },
           {
             label: 'Edit Account',
-            href: `/accounts/payable/${id}/edit`,
+            href: `/invoices/payable/${id}/edit`,
             active: true,
           },
         ]}

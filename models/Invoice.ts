@@ -1,14 +1,14 @@
-import { prop } from '@typegoose/typegoose'
-import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses'
+import { modelOptions, prop } from '@typegoose/typegoose'
 import { Company } from './Company'
+import { ObjectId } from 'mongodb'
 
 export enum Currency {
   GTQ = 'GTQ',
 }
 
 export enum InvoiceState {
-  VIGENTE = 'VIGENTE',
-  ANULADO = 'ANULADO',
+  VIGENTE = 'Vigente',
+  ANULADO = 'Anulado',
 }
 
 export enum InvoiceType {
@@ -51,7 +51,16 @@ export class InvoiceMetadata {
   public portFee: number
 }
 
-export class Invoice extends TimeStamps {
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+    versionKey: false,
+  },
+})
+export class Invoice {
+  @prop()
+  public id: ObjectId
+
   @prop()
   public date: string
 
@@ -68,10 +77,10 @@ export class Invoice extends TimeStamps {
   public dteNumber: string
 
   @prop({ ref: () => Company })
-  public issuerId: Company
+  public issuer: Company
 
-  @prop()
-  public receiverId: Company //nit del receptor
+  @prop({ ref: () => Company })
+  public receiver: Company //nit del receptor
 
   @prop({ enum: Currency })
   public currency: Currency

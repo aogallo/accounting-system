@@ -1,10 +1,14 @@
 'use client'
 
-import { ChangeEvent, useState, useEffect } from 'react'
+import { ChangeEvent, useState, useEffect, useCallback } from 'react'
 import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
 import { Button } from '@/app/ui/Button'
 import { payableAccountHeader } from '@/constants/PayableAccountHeader'
+import {
+  createOrUpdateCompanies,
+  uploadExcel,
+} from '@/app/lib/actions/ExcelFile'
 
 export default function Page() {
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
@@ -40,30 +44,33 @@ export default function Page() {
     }
   }
 
-  useEffect(() => {
+  const dataToS = useCallback(async () => {
     if (file) {
       const workbook = XLSX.read(file, { type: 'buffer' })
       const worksheetName = workbook.SheetNames[0]
       const worksheet = workbook.Sheets[worksheetName]
       const sheetData = XLSX.utils.sheet_to_json<Record<string, any>>(worksheet)
       if (sheetData) {
-        const [data, companies] = normalizeDataToSave(sheetData, true)
+        const [data, companies] = await normalizeDataToSave(sheetData, true)
         setDataToSave({ data, companies })
         setFileData(normalizeData(sheetData, true))
       }
     }
   }, [file])
 
+  useEffect(() => {
+    dataToS()
+  }, [file, dataToS])
+
   const handleCreatePayableAccounts = async () => {
     try {
       setIsLoading(true)
-      await fetch('/api/accounts/payable', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSave),
-      })
+      if (dataToSave) {
+        const result = await uploadExcel(dataToSave)
+        console.log('result', result)
+        // createOrUpdateCompanies(dataToSave.companies).then(async () => {
+        // })
+      }
     } catch (error) {
       console.log('error', error)
     } finally {
