@@ -13,9 +13,8 @@ export async function fetchInvoices(query: string, currentPage: number) {
       { accountType: 'PAYABLE' },
       {},
       { limit: ITEMS_PER_PAGE, skip: offset }
-    )
+    ).populate(['issuer', 'receiver'])
 
-    // await data.populate('company')
     return data
   } catch (error) {
     console.error('Database Error:', error)
