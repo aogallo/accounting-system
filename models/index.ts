@@ -8,6 +8,7 @@ import { Invoice } from './Invoice'
 const invoiceSchema = buildSchema(Invoice)
 const invoiceModel = models.Invoice || model('Invoice', invoiceSchema)
 export const InvoiceModel = addModelToTypegoose(invoiceModel, Invoice)
+
 // User Model
 const userSchema = buildSchema(User)
 const userModel = models.User || model('User', userSchema)
