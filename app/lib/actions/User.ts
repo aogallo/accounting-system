@@ -17,6 +17,7 @@ type UserForm = z.infer<typeof UserSchema>
 type ErrorState = Partial<Record<keyof UserForm, string[] | undefined>>
 
 type State = {
+  success: boolean
   errors?: ErrorState
   message?: string
 }
@@ -30,6 +31,7 @@ export async function createUser(prevState: State, formData: FormData) {
 
   if (!validateFields.success) {
     return {
+      success: false,
       errors: validateFields.error.flatten().fieldErrors,
       message: 'Missing Fields, Failed to Create User',
     }
@@ -41,10 +43,9 @@ export async function createUser(prevState: State, formData: FormData) {
 
   const dbUser = await UserModel.findOne({ user, email })
 
-  console.log('db user', dbUser)
-
   if (dbUser !== null) {
     return {
+      success: false,
       message: 'User already exists',
     }
   }
@@ -56,13 +57,13 @@ export async function createUser(prevState: State, formData: FormData) {
     password: hashedPassword,
   })
 
-  console.log('new user', newUser)
-
   await newUser.save()
 
   revalidatePath('/')
 
   return {
+    success: true,
+
     message: 'User has been created',
   }
 }

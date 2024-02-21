@@ -11,7 +11,7 @@ import { useFormState } from 'react-dom'
 import { createUser } from '@/app/lib/actions/User'
 
 export default function CreateUserForm() {
-  const initialState = { message: '', errors: undefined }
+  const initialState = { success: false, message: '', errors: undefined }
   const [state, dispatch] = useFormState(createUser, initialState)
 
   return (
@@ -91,23 +91,17 @@ export default function CreateUserForm() {
           </div>
         </div>
         <div id='password-error' aria-live='polite' aria-atomic='true'>
-          {state.errors?.password ? (
-            state.errors.password.map((error) => (
-              <p className='mt-2 text-sm text-red-500' key={error}>
-                {error}
-              </p>
-            ))
-          ) : (
-            <p className='mt-2 text-sm text-red-500'>{state.message}</p>
-          )}
-        </div>
-        <div id='' aria-live='polite' aria-atomic='true'>
           {state.errors?.password &&
             state.errors.password.map((error) => (
               <p className='mt-2 text-sm text-red-500' key={error}>
                 {error}
               </p>
             ))}
+        </div>
+        <div id='' aria-live='polite' aria-atomic='true'>
+          {state.success && (
+            <p className='mt-2 text-sm text-green-500'>{state.message}</p>
+          )}
         </div>
       </div>
       <div className='mt-6 flex justify-end gap-4'>
