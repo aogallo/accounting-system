@@ -1,16 +1,23 @@
 import { Invoice, InvoiceState, InvoiceType, Currency } from '@/models/Invoice'
+import { ObjectId } from 'mongodb'
 
 export const initialState: Invoice = {
+  id: new ObjectId('65d53ac56150419fe78c5720'),
   date: '',
   authorizationNumber: '',
   dteNumber: '',
   currency: Currency.GTQ,
   iva: 0,
-  issuerName: '',
+  issuer: {
+    nit: '',
+    name: '',
+  },
   accountType: InvoiceType.PAYABLE,
   type: '',
-  receiverId: {},
-  issuerId: {},
+  receiver: {
+    name: '',
+    nit: '',
+  },
   serie: '',
   state: InvoiceState.VIGENTE,
   amount: 0,

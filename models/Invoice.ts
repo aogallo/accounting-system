@@ -98,7 +98,7 @@ export class Invoice {
   public accountType: InvoiceType
 
   @prop()
-  public cancellationDate: string
+  public avoidDate?: string
 
   @prop({ type: () => InvoiceMetadata })
   public metadata: Partial<InvoiceMetadata>

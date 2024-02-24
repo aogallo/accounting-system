@@ -93,7 +93,7 @@ export default async function InvoiceTable({ query, currentPage }: TableProps) {
                       {invoice.state}
                     </td>
                     <td className='whitespace-nowrap py-3 pl-6 pr-3'>
-                      {invoice.cancellationDate}
+                      {invoice.avoidDate}
                     </td>
                     <td className='whitespace-nowrap py-3 pl-6 pr-3'>
                       {invoice.iva}
