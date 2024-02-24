@@ -66,7 +66,6 @@ export async function uploadExcel({
     const dbCompanies = await CommpanyModel.find()
 
     if (dbCompanies.length === 0) {
-      console.log('compan', dbCompanies)
       return [{ success: false, message: 'Companies failed to upload' }]
     }
 

@@ -29,6 +29,7 @@ export async function createUser(prevState: State, formData: FormData) {
     password: formData.get('password'),
   })
 
+
   if (!validateFields.success) {
     return {
       success: false,
@@ -38,6 +39,7 @@ export async function createUser(prevState: State, formData: FormData) {
   }
 
   const { user, email, password } = validateFields.data
+  console.log(user, email, password )
 
   await dbConnect()
 

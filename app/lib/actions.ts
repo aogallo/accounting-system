@@ -1,8 +1,32 @@
+'use server'
+
 import { dbConnect } from './mongodb'
 import { Invoice } from '@/models/Invoice'
 import { InvoiceModel } from '@/models'
+import { signIn } from '@/auth'
+import { AuthError } from 'next-auth'
 
 const ITEMS_PER_PAGE = 10
+
+export const authenticate = async (
+  prevState: string | undefined,
+  formData: FormData
+) => {
+  try {
+    const data = await signIn('credentials', formData)
+    console.log('login', data)
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin':
+          return 'Invalid credentials.'
+        default:
+          return 'Something went wrong.'
+      }
+    }
+    throw error
+  }
+}
 
 export async function fetchInvoices(query: string, currentPage: number) {
   await dbConnect()

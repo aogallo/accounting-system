@@ -57,7 +57,6 @@ export default async function InvoiceTable({ query, currentPage }: TableProps) {
             </thead>
             <tbody className='bg-white'>
               {invoices?.map((invoice) => {
-                console.log('invoice', invoice)
                 return (
                   <tr
                     key={invoice._id.toString()}
