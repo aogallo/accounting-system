@@ -1,11 +1,23 @@
-import { prop, modelOptions, index } from '@typegoose/typegoose'
+import { Schema, model, models } from 'mongoose'
 
-@modelOptions({ schemaOptions: { timestamps: true, versionKey: false } })
-@index({nit: 1}, {unique:true})
-export class Company {
-  @prop()
-  public name: string
+const companySchema = new Schema(
+  {
+    name: {
+      type: String,
+    },
+    nit: {
+      type: String,
+      unique: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+)
 
-  @prop({required:true, unique: true })
-  public nit: string
+export interface Company {
+  name: string
+  nit: string
 }
+
+export default companySchema

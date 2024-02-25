@@ -1,6 +1,6 @@
 'use server'
 
-import { CommpanyModel, InvoiceModel } from '@/models'
+import { CompanyModel, InvoiceModel } from '@/models'
 import { AnyBulkWriteOperation } from 'mongodb'
 import { dbConnect } from '../mongodb'
 import { revalidatePath } from 'next/cache'
@@ -23,7 +23,7 @@ export const createOrUpdateCompanies = async (
     bulk.push(updateDoc)
   }
 
-  CommpanyModel.bulkWrite(bulk)
+  CompanyModel.bulkWrite(bulk)
     .then((result) => console.log(JSON.stringify(result, null, 2)))
     .catch((error) => console.error(error))
 }
@@ -63,7 +63,7 @@ export async function uploadExcel({
     //   })
     //   .catch((error) => console.error(error))
 
-    const dbCompanies = await CommpanyModel.find()
+    const dbCompanies = await CompanyModel.find()
 
     if (dbCompanies.length === 0) {
       return [{ success: false, message: 'Companies failed to upload' }]
