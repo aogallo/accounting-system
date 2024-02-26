@@ -4,5 +4,5 @@ import invoiceSchema from './Invoice'
 import companySchema from './Company'
 
 export const InvoiceModel = models.Invoice || model('Invoice', invoiceSchema)
-export const UserModel = models.Invoice || model('User', userSchema)
+export const UserModel = models.User || model('User', userSchema)
 export const CompanyModel = models.Company || model('Company', companySchema)
