@@ -1,4 +1,5 @@
 import { Invoice } from '@/models/Invoice'
+import { CurrencyDollarIcon } from '@heroicons/react/24/outline'
 
 export default async function EditPayableForm({
   account,
@@ -8,7 +9,7 @@ export default async function EditPayableForm({
   return (
     <form>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
-                {/* Amount */}
+        {/* Amount */}
         <div className='mb-4'>
           <label htmlFor='amount' className='mb-2 block text-sm font-medium'>
             Choose an amount
@@ -28,16 +29,14 @@ export default async function EditPayableForm({
             </div>
           </div>
           <div id='amount-error' aria-live='polite' aria-atomic='true'>
-            {state.errors?.amount &&
-              state.errors.amount.map((error) => (
-                <p className='mt-2 text-sm text-red-500' key={error}>
-                  {error}
-                </p>
-              ))}
+            {/* {state.errors?.amount && */}
+            {/*   state.errors.amount.map((error) => ( */}
+            {/*     <p className='mt-2 text-sm text-red-500' key={error}> */}
+            {/*       {error} */}
+            {/*     </p> */}
+            {/*   ))} */}
           </div>
         </div>
-      </div>
-
       </div>
     </form>
   )

@@ -1,13 +1,21 @@
-import { prop, modelOptions } from '@typegoose/typegoose'
+import { Schema } from 'mongoose'
 
-@modelOptions({ schemaOptions: { timestamps: true } })
-export class User {
-  @prop({ unique: true })
-  public user: string
+const userSchema = new Schema(
+  {
+    user: String,
+    email: {
+      type: String,
+      unique: true,
+    },
+    password: String,
+  },
+  { timestamps: true }
+)
 
-  @prop({ unique: true })
-  public email: string
-
-  @prop()
-  public password: string
+export interface User {
+  user: string
+  email: string
+  password: string
 }
+
+export default userSchema
