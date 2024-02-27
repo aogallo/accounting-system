@@ -5,6 +5,7 @@ import { formatDateToLocal } from '@/app/lib/utils'
 
 export default async function InvoiceTable({ query, currentPage }: TableProps) {
   const invoices = await fetchInvoices('', 1)
+  console.log('invoices', invoices)
 
   return (
     <div className='mt-6 flow-root'>
