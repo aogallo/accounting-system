@@ -6,7 +6,16 @@ import { lusitana } from '@/app/ui/fonts'
 
 import InvoiceTable from '@/app/ui/invoices/InvoiceTable'
 
-export default async function Page() {
+type Props = {
+  searchParams?: {
+    query?: string
+    page?: string
+  }
+}
+
+export default async function Page({ searchParams }: Props) {
+  const query = searchParams?.query || ''
+
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between'>
