@@ -1,8 +1,12 @@
 import { PowerIcon } from '@heroicons/react/24/outline'
 import NavLinks from './nav-links'
-import { signOut } from '@/auth'
+import { auth, signOut } from '@/auth'
 
-export default function SideNav() {
+export default async function SideNav() {
+  const session = await auth()
+
+  console.log('session', session)
+
   return (
     <div className='flex h-full flex-col px-3 py-4 md:px-2'>
       <div className='flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2'>

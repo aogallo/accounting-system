@@ -2,6 +2,7 @@
 
 import {
   BanknotesIcon,
+  CircleStackIcon,
   CreditCardIcon,
   HomeIcon,
   UserIcon,
@@ -9,6 +10,7 @@ import {
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
+import { useSession } from 'next-auth/react'
 
 type LinksType = {
   name: string
@@ -19,12 +21,12 @@ type LinksType = {
 const links: LinksType[] = [
   { name: 'Home', href: '/', icon: HomeIcon },
   {
-    name: 'Payable Accounts',
+    name: 'Payable Invoices',
     href: '/invoices/payable',
     icon: CreditCardIcon,
   },
   {
-    name: 'Receivable Accounts ',
+    name: 'Receivable Invoices',
     href: '/invoices/receivable',
     icon: BanknotesIcon,
   },
@@ -33,10 +35,16 @@ const links: LinksType[] = [
     href: '/register',
     icon: UserIcon,
   },
+  {
+    name: 'Reports',
+    href: '/reports',
+    icon: CircleStackIcon,
+  },
 ]
 
 export default function NavLinks() {
   const pathname = usePathname()
+
   return (
     <>
       {links.map((link) => {

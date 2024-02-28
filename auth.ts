@@ -12,6 +12,7 @@ async function getUser(user: string): Promise<
       user: string
       email: string
       password: string
+      roles: string[]
     }
   | undefined
 > {
