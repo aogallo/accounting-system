@@ -19,6 +19,6 @@ export async function dbConnect() {
   conn.isConnected = db.connections[0].readyState === 1
 }
 
-connection.on('connected', () => console.log('Mongodb connected to db'))
+connection.on('connected', () => console.info('Mongodb connected to db'))
 
 connection.on('error', (err) => console.error('Mongodb Errro:', err.message))
