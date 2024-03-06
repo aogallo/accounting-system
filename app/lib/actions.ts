@@ -13,8 +13,7 @@ export const authenticate = async (
   formData: FormData
 ) => {
   try {
-    const data = await signIn('credentials', formData)
-    console.log('login', data)
+    await signIn('credentials', formData)
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

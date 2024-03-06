@@ -32,51 +32,42 @@ export default async function Home() {
           LogIn
         </Link>
       )}
-      <Link
-        href={'/dashboard'}
-        className='rounded-full border-2 border-black px-5 py-1 hover:bg-gray-200'
-      >
-        Dashboard
-      </Link>
-      <Link
-        href={'/invoices/payable'}
-        className='rounded-full border-2 border-black px-5 py-1 hover:bg-gray-200'
-      >
-        Payable Invoices
-      </Link>
       <div className='mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left'>
-        <div
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+        <Link
+          href={'/invoices/payable'}
+          className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
           rel='noopener noreferrer'
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Accounts Payable{' '}
+            Payable Invoices{' '}
             <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               -&gt;
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Manage your Account Payable
+            Manage your Invoice Payable
           </p>
-        </div>
+        </Link>
 
-        <div
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+        <Link
+          href={'/invoices/receibable'}
+          className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
           rel='noopener noreferrer'
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Accounts Receivable{' '}
+            Receivable Invoices{' '}
             <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
               -&gt;
             </span>
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Manage your Account Receivable
+            Manage your Receivable Invoices
           </p>
-        </div>
+        </Link>
 
-        <div
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+        <Link
+          href={'/dashboard'}
+          className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
           rel='noopener noreferrer'
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
@@ -88,9 +79,11 @@ export default async function Home() {
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
             Have a whole view of your income and expenses
           </p>
-        </div>
-        <div
-          className='group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+        </Link>
+
+        <Link
+          href={'/reports'}
+          className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
           rel='noopener noreferrer'
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
@@ -102,7 +95,7 @@ export default async function Home() {
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
             Create financials reports
           </p>
-        </div>
+        </Link>
       </div>
     </main>
   )
