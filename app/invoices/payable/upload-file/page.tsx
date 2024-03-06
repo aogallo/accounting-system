@@ -66,13 +66,10 @@ export default function Page() {
     try {
       setIsLoading(true)
       if (dataToSave) {
-        const result = await uploadExcel(dataToSave)
-        console.log('result', result)
-        // createOrUpdateCompanies(dataToSave.companies).then(async () => {
-        // })
+        await uploadExcel(dataToSave)
       }
     } catch (error) {
-      console.log('error', error)
+      console.error('error', error)
     } finally {
       setIsLoading(false)
     }
