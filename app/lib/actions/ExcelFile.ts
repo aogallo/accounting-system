@@ -24,13 +24,12 @@ export const createOrUpdateCompanies = async (
   }
 
   CompanyModel.bulkWrite(bulk)
-    .then((result) => console.log(JSON.stringify(result, null, 2)))
+    .then(() => console.info('createing the bulk for companies'))
     .catch((error) => console.error(error))
 }
 
 export async function uploadExcel({
   data,
-  companies,
 }: {
   data: Record<string, any>[]
   companies: Record<string, string>[]
@@ -96,7 +95,7 @@ export async function uploadExcel({
     })
 
     InvoiceModel.bulkWrite(bulk)
-      .then((result) => console.log(JSON.stringify(result, null, 2)))
+      .then(() => console.info('Creating the bulk for invocies'))
       .catch((error) => console.error(error))
 
     revalidatePath('/invoices/payable')

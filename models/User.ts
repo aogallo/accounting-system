@@ -8,6 +8,9 @@ const userSchema = new Schema(
       unique: true,
     },
     password: String,
+    roles: {
+      type: [String],
+    },
   },
   { timestamps: true }
 )
@@ -16,6 +19,7 @@ export interface User {
   user: string
   email: string
   password: string
+  roles?: string[]
 }
 
 export default userSchema

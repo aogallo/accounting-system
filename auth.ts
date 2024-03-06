@@ -12,6 +12,7 @@ async function getUser(user: string): Promise<
       user: string
       email: string
       password: string
+      roles: string[]
     }
   | undefined
 > {
@@ -28,6 +29,7 @@ async function getUser(user: string): Promise<
       email: dbUser.email,
       password: dbUser.password,
       id: dbUser.id,
+      roles: [],
     }
   } catch (error) {}
 }
