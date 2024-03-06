@@ -5,6 +5,8 @@ import {
 import { lusitana } from '@/app/ui/fonts'
 
 import InvoiceTable from '@/app/ui/invoices/InvoiceTable'
+import { InvoceTableSkeleton } from '@/app/ui/invoices/InvoiceTableSkeleton'
+import { Suspense } from 'react'
 
 type Props = {
   searchParams?: {
@@ -16,6 +18,8 @@ type Props = {
 export default async function Page({ searchParams }: Props) {
   const query = searchParams?.query || ''
 
+  const currentPage = Number(searchParams?.page) || 1
+
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between'>
@@ -26,9 +30,9 @@ export default async function Page({ searchParams }: Props) {
         <CreatePayableAccount />
         <UploadPayableAccountFile />
       </div>
-      {/* <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}> */}
-      <InvoiceTable query={''} currentPage={0} />
-      {/* </Suspense> */}
+      <Suspense key={query + currentPage} fallback={<InvoceTableSkeleton />}>
+        <InvoiceTable query={''} currentPage={currentPage} />
+      </Suspense>
       {/* <div className="mt-5 flex w-full justify-center"> */}
       {/*   <Pagination totalPages={totalPages} /> */}
       {/* </div> */}
