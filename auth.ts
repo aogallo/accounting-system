@@ -29,6 +29,7 @@ async function getUser(user: string): Promise<
       email: dbUser.email,
       password: dbUser.password,
       id: dbUser.id,
+      roles: [],
     }
   } catch (error) {}
 }
