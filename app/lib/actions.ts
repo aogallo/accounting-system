@@ -6,7 +6,7 @@ import { InvoiceModel } from '@/models'
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 6
 
 export const authenticate = async (
   prevState: string | undefined,
