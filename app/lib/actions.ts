@@ -32,8 +32,10 @@ export async function fetchInvoices(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
   try {
+    const queryM = { $serie: { $search: query }, accountType: 'PAYABLE' }
+
     const data = await InvoiceModel.find(
-      { accountType: 'PAYABLE' },
+      queryM,
       {},
       {
         sort: {
