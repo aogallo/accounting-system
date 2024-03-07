@@ -35,7 +35,13 @@ export async function fetchInvoices(query: string, currentPage: number) {
     const data = await InvoiceModel.find(
       { accountType: 'PAYABLE' },
       {},
-      { limit: ITEMS_PER_PAGE, skip: offset }
+      {
+        sort: {
+          date: -1,
+        },
+        limit: ITEMS_PER_PAGE,
+        skip: offset,
+      }
     ).populate(['issuer', 'receiver'])
 
     return data
