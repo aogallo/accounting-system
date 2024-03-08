@@ -8,7 +8,7 @@ import {
 } from '@/app/lib/utils'
 
 export default async function InvoiceTable({ query, currentPage }: TableProps) {
-  const invoices = await fetchInvoices('', 1)
+  const invoices = await fetchInvoices(query, currentPage)
 
   return (
     <div className='mt-6 flow-root'>
@@ -38,9 +38,6 @@ export default async function InvoiceTable({ query, currentPage }: TableProps) {
                 </th>
                 <th scope='col' className='px-3 py-5 font-medium'>
                   Estado
-                </th>
-                <th scope='col' className='px-3 py-5 font-medium'>
-                  Fecha de anulación
                 </th>
                 <th scope='col' className='px-3 py-5 font-medium'>
                   Acciones
@@ -74,9 +71,6 @@ export default async function InvoiceTable({ query, currentPage }: TableProps) {
                       {formatCurrency(invoice.iva)}
                     </td>
                     <td className='whitespace-nowrap py-3 '>{invoice.state}</td>
-                    <td className='whitespace-nowrap py-3 '>
-                      {invoice.avoidDate}
-                    </td>
                     <td className='whitespace-nowrap py-3 '>
                       <div className='flex justify-end gap-3'>
                         <UpdateInvoice id={invoice.id} />

@@ -6,7 +6,7 @@ import { InvoiceModel } from '@/models'
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 6
 
 export const authenticate = async (
   prevState: string | undefined,
@@ -31,11 +31,29 @@ export async function fetchInvoices(query: string, currentPage: number) {
   await dbConnect()
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
+  const regex = { $regex: '.*' + query.toUpperCase() + '.*' }
+
   try {
+    const queryM = {
+      $or: [
+        { serie: regex },
+        { dteNumber: regex },
+        // { amount:  },
+        { state: regex },
+      ],
+      accountType: 'PAYABLE',
+    }
+
     const data = await InvoiceModel.find(
-      { accountType: 'PAYABLE' },
+      queryM,
       {},
-      { limit: ITEMS_PER_PAGE, skip: offset }
+      {
+        sort: {
+          date: -1,
+        },
+        limit: ITEMS_PER_PAGE,
+        skip: offset,
+      }
     ).populate(['issuer', 'receiver'])
 
     return data
