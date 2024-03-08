@@ -32,13 +32,15 @@ export async function fetchInvoices(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
   const regex = { $regex: '.*' + query.toUpperCase() + '.*' }
+  const numberValue = query ? query.match(/\d/g)?.join('') : 0
 
   try {
     const queryM = {
       $or: [
         { serie: regex },
         { dteNumber: regex },
-        // { amount:  },
+        { amount: Number(numberValue) },
+        { iva: Number(numberValue) },
         { state: regex },
       ],
       accountType: 'PAYABLE',
