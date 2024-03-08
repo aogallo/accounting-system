@@ -31,8 +31,18 @@ export async function fetchInvoices(query: string, currentPage: number) {
   await dbConnect()
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
+  const regex = { $regex: '.*' + query.toUpperCase() + '.*' }
+
   try {
-    const queryM = { $serie: { $search: query }, accountType: 'PAYABLE' }
+    const queryM = {
+      $or: [
+        { serie: regex },
+        { dteNumber: regex },
+        // { amount:  },
+        { state: regex },
+      ],
+      accountType: 'PAYABLE',
+    }
 
     const data = await InvoiceModel.find(
       queryM,

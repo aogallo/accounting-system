@@ -35,7 +35,7 @@ export default async function Page({ searchParams }: Props) {
         <UploadPayableAccountFile />
       </div>
       <Suspense key={query + currentPage} fallback={<InvoceTableSkeleton />}>
-        <InvoiceTable query={''} currentPage={currentPage} />
+        <InvoiceTable query={query} currentPage={currentPage} />
       </Suspense>
       <div className='mt-5 flex w-full justify-center'>
         <Pagination totalPages={totalPages} />
