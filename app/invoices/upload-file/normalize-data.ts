@@ -3,18 +3,13 @@ import { InvoiceType } from '@/app/lib/definitions'
 
 export const normalizeData = (
   data: Record<string, any>[],
-  isPayable: boolean = false
+  isReceivable: boolean = false
 ): Record<string, any>[] => {
-  console.log('data', data)
   return data.map((row) => {
     for (const [key, value] of Object.entries(row)) {
       if (key === 'Fecha de emisión') {
         row['date'] = value.split('T')[0]
       }
-
-      // if (key === 'Número de Autorización') {
-      //   row['authorizationNumber'] = value
-      // }
 
       if (key === 'Serie') {
         row['invoice'] = `Serie: ${value}`
@@ -23,20 +18,31 @@ export const normalizeData = (
         row['invoice'] += `\nDTE: ${value}`
       }
 
-      if (key === 'NIT del emisor' || key === 'Nombre completo del emisor') {
-        row['emisor'] += value
+      if (isReceivable) {
+        if (key === 'ID del receptor') {
+          row['receptor'] = value
+        }
+
+        if (key === 'Nombre completo del receptor') {
+          row['receptor'] += ` - ${value}`
+        }
+      } else {
+        console.log('test', key, value)
+        if (key === 'NIT del emisor') {
+          row['emisor'] = value
+        }
+        if (key === 'Nombre completo del emisor') {
+          row['emisor'] += ` - ${value}`
+        }
       }
 
-      if (key === 'ID del receptor' || key === 'Nombre completo del receptor') {
-        row['receptor'] += value
-      }
-
-      if (
-        key === 'NIT del Certificador' ||
-        key === 'Nombre completo del Certificador'
-      ) {
-        row['certificador'] += value
-      }
+      // if (key === 'NIT del Certificador') {
+      //   row['certificador'] = value
+      // }
+      //
+      // if (key === 'Nombre completo del Certificador') {
+      //   row['certificador'] += ` - ${value}`
+      // }
 
       if (key === 'Moneda') {
         row['currency'] = value
@@ -58,7 +64,7 @@ export const normalizeData = (
         key === 'Petróleo (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `petróleo: ${value}`
+        row['impuestos'] = `petróleo: ${value}`
       }
 
       if (
@@ -79,50 +85,50 @@ export const normalizeData = (
         key === 'Timbre de Prensa (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `timbre-prensa: ${value}`
+        row['impuestos'] += `\ntimbre-prensa: ${value}`
       }
 
       if (
         key === 'Bomberos (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `bomberos: ${value}`
+        row['impuestos'] += `\nbomberos: ${value}`
       }
 
       if (
         key === 'Tasa Municipal (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `tasa-municipal: ${value}`
+        row['impuestos'] += `\ntasa-municipal: ${value}`
       }
 
       if (
         key === 'Bebidas alcohólicas (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `bebidas-alcohólicas: ${value}`
+        row['impuestos'] += `\nbebidas-alcohólicas: ${value}`
       }
 
       if (key === 'Tabaco (monto de este impuesto)' && parseFloat(value) > 0) {
-        row['impuestos'] += `tabaco: ${value}`
+        row['impuestos'] += `\ntabaco: ${value}`
       }
 
       if (key === 'Cemento (monto de este impuesto)' && parseFloat(value) > 0) {
-        row['impuestos'] += `cemento: ${value}`
+        row['impuestos'] += `\ncemento: ${value}`
       }
 
       if (
         key === 'Bebidas no Alcohólicas (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `bebidas-no-alcohólicas: ${value}`
+        row['impuestos'] += `\nbebidas-no-alcohólicas: ${value}`
       }
 
       if (
         key === 'Tarifa Portuaria (monto de este impuesto)' &&
         parseFloat(value) > 0
       ) {
-        row['impuestos'] += `tarifa-portuaria: ${value}`
+        row['impuestos'] += `\ntarifa-portuaria: ${value}`
       }
 
       // delete every key

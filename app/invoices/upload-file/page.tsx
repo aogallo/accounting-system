@@ -6,10 +6,15 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
 
+type DataSave = {
+  data: Record<string, any>[]
+  companies: Record<string, string>[]
+}
+
+type FileType = string | ArrayBuffer | null | undefined
+
 export default function Page() {
-  const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
-    undefined
-  )
+  const [file, setFile] = useState<FileType>(undefined)
   const [fileData, setFileData] = useState<Record<string, any>[]>([])
   const [isChecked, setIsChecked] = useState(false)
   const fileTypes = [
@@ -18,16 +23,13 @@ export default function Page() {
     'text/csv',
   ]
   const [isLoading, setIsLoading] = useState(false)
+  const [dataToSave, setDataToSave] = useState<DataSave>()
 
-  type DataSave = {
-    data: Record<string, any>[]
-    companies: Record<string, string>[]
-  }
   const handleCheckboxChange = () => {
+    setFile(null)
+    setFileData([])
     setIsChecked(!isChecked)
   }
-
-  const [dataToSave, setDataToSave] = useState<DataSave>()
 
   const handleChange = (file: ChangeEvent<HTMLInputElement>) => {
     const newFile = file.target.files?.[0]
@@ -52,10 +54,10 @@ export default function Page() {
       if (sheetData) {
         const [data, companies] = await normalizeDataToSave(sheetData, true)
         setDataToSave({ data, companies })
-        setFileData(normalizeData(sheetData, true))
+        setFileData(normalizeData(sheetData, isChecked))
       }
     }
-  }, [file])
+  }, [file, isChecked])
 
   useEffect(() => {
     dataToS()
@@ -154,9 +156,12 @@ Bebidas alcohólicas (monto de este impuesto);Tabaco (monto de este impuesto);Ce
 Bebidas no Alcohólicas (monto de este impuesto);Tarifa Portuaria (monto de este impuesto) */}
               <th className='border border-slate-300'>Fecha de emisión</th>
               <th className='border border-slate-300'>Factura</th>
-              <th className='border border-slate-300'>Emisor</th>
-              <th className='border border-slate-300'>Receptor</th>
-              <th className='border border-slate-300'>Certificador</th>
+
+              <th className='border border-slate-300'>
+                {isChecked ? 'Receptor' : 'Emisor'}
+              </th>
+              {/* <th className='border border-slate-300'>Receptor</th> */}
+              {/* <th className='border border-slate-300'>Certificador</th> */}
               <th className='border border-slate-300'>Moneda</th>
               <th className='border border-slate-300'>Total</th>
               <th className='border border-slate-300'>Estado</th>
