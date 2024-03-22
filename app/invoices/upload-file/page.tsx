@@ -118,16 +118,11 @@ export default function Page() {
         <table className='mt-2 border-collapse border border-slate-500'>
           <thead>
             <tr>
-              {payableAccountHeader.map((key) => (
-                <th key={key} className='border border-slate-600'>
-                  <h3 className='text-xs'>
-                    {' '}
-                    {key
-                      .replace('(Gran Total)', '')
-                      .replace('(monto de este impuesto)', '')}
-                  </h3>
-                </th>
-              ))}
+              <th>Fecha de emisión</th>
+              <th>Factura</th>
+              <th>Receptor</th>
+              <th>Emisor</th>
+              <th>Certificador</th>
             </tr>
           </thead>
           <tbody>
