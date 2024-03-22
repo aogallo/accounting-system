@@ -1,20 +1,17 @@
 'use client'
 
-import { ChangeEvent, useState, useEffect, useCallback } from 'react'
+import { uploadExcel } from '@/app/lib/actions/ExcelFile'
+import { Button } from '@/app/ui/Button'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
-import { Button } from '@/app/ui/Button'
-import { payableAccountHeader } from '@/constants/PayableAccountHeader'
-import {
-  createOrUpdateCompanies,
-  uploadExcel,
-} from '@/app/lib/actions/ExcelFile'
 
 export default function Page() {
   const [file, setFile] = useState<string | ArrayBuffer | null | undefined>(
     undefined
   )
   const [fileData, setFileData] = useState<Record<string, any>[]>([])
+  const [isChecked, setIsChecked] = useState(false)
   const fileTypes = [
     'application/vnd.ms-excel',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -26,9 +23,11 @@ export default function Page() {
     data: Record<string, any>[]
     companies: Record<string, string>[]
   }
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked)
+  }
 
   const [dataToSave, setDataToSave] = useState<DataSave>()
-  // const [dataToSave, setDataToSave] = useState<Record<string, any>[]>()
 
   const handleChange = (file: ChangeEvent<HTMLInputElement>) => {
     const newFile = file.target.files?.[0]
@@ -88,6 +87,33 @@ export default function Page() {
           type='file'
           onChange={handleChange}
         />
+
+        <label className='themeSwitcherTwo relative mx-2 inline-flex cursor-pointer select-none items-center'>
+          <input
+            type='checkbox'
+            checked={isChecked}
+            onChange={handleCheckboxChange}
+            className='sr-only'
+          />
+          <span className='label flex items-center text-sm font-medium text-black'>
+            Payable
+          </span>
+          <span
+            className={`slider mx-4 flex h-8 w-[60px] items-center rounded-full p-1 duration-200 ${
+              isChecked ? 'bg-[#212b36]' : 'bg-[#CCCCCE]'
+            }`}
+          >
+            <span
+              className={`dot h-6 w-6 rounded-full bg-white duration-200 ${
+                isChecked ? 'translate-x-[28px]' : ''
+              }`}
+            ></span>
+          </span>
+          <span className='label flex items-center text-sm font-medium text-black'>
+            Receivable
+          </span>
+        </label>
+
         <Button disabled={isLoading} onClick={handleCreatePayableAccounts}>
           {isLoading ? (
             <>
@@ -115,14 +141,27 @@ export default function Page() {
         </Button>
       </section>
       {fileData && (
-        <table className='mt-2 border-collapse border border-slate-500'>
+        <table className='border-collapse border border-slate-400'>
           <thead>
             <tr>
-              <th>Fecha de emisión</th>
-              <th>Factura</th>
-              <th>Receptor</th>
-              <th>Emisor</th>
-              <th>Certificador</th>
+              {/* Fecha de emisión;;Tipo de DTE (nombre);Serie;Número del DTE;
+NIT del emisor;Nombre completo del emisor;Código de establecimiento;Nombre del establecimiento;
+ID del receptor;Nombre completo del receptor;NIT del Certificador;Nombre completo del Certificador;
+Moneda;Monto (Gran Total);Estado;Marca de anulado;Fecha de anulación;IVA (monto de este impuesto);
+Petróleo (monto de este impuesto);Turismo Hospedaje (monto de este impuesto);Turismo Pasajes (monto de este impuesto);
+Timbre de Prensa (monto de este impuesto);Bomberos (monto de este impuesto);Tasa Municipal (monto de este impuesto);
+Bebidas alcohólicas (monto de este impuesto);Tabaco (monto de este impuesto);Cemento (monto de este impuesto);
+Bebidas no Alcohólicas (monto de este impuesto);Tarifa Portuaria (monto de este impuesto) */}
+              <th className='border border-slate-300'>Fecha de emisión</th>
+              <th className='border border-slate-300'>Factura</th>
+              <th className='border border-slate-300'>Emisor</th>
+              <th className='border border-slate-300'>Receptor</th>
+              <th className='border border-slate-300'>Certificador</th>
+              <th className='border border-slate-300'>Moneda</th>
+              <th className='border border-slate-300'>Total</th>
+              <th className='border border-slate-300'>Estado</th>
+              <th className='border border-slate-300'>IVA</th>
+              <th className='border border-slate-300'>Impuestos</th>
             </tr>
           </thead>
           <tbody>
