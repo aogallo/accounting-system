@@ -2,6 +2,7 @@
 
 import {
   BanknotesIcon,
+  CalculatorIcon,
   CircleStackIcon,
   CreditCardIcon,
   HomeIcon,
@@ -39,6 +40,11 @@ const links: LinksType[] = [
     name: 'Reports',
     href: '/reports',
     icon: CircleStackIcon,
+  },
+  {
+    name: 'Purchase orders',
+    href: '/purchase-order',
+    icon: CalculatorIcon,
   },
 ]
 
