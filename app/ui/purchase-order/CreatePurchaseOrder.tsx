@@ -6,45 +6,76 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import BaseForm from '../BaseForm'
 import Input from '../Input'
+import Pagination from '../Pagination'
+import { Button } from '../Button'
+import BasicTable from '../BasicTable'
 
-type OrderLines = {
+type OrderLine = {
   quantity: number
   product: string
   price: number
+  total: number
 }
 
 export default function CreatePurchaseOrder() {
-  const defaultData: OrderLines[] = [
-    { quantity: 10, product: 'camisa', price: 12 },
-  ]
-  const columnHelper = createColumnHelper<OrderLines>()
+  const defaultData: OrderLine[] = []
+  const columnHelper = createColumnHelper<OrderLine>()
   const columns = [
-    columnHelper.accessor('quantity', {
-      cell: (info) => info.getValue(),
-      footer: (info) => info.column.id,
-    }),
     columnHelper.accessor('product', {
       cell: (info) => info.getValue(),
       header: 'Product',
-      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor('quantity', {
+      cell: (info) => info.getValue(),
+      header: 'Quantity',
     }),
     columnHelper.accessor('price', {
       cell: (info) => info.getValue(),
       header: 'Price',
-      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor('total', {
+      cell: (info) => info.getValue(),
+      header: 'Total',
     }),
   ]
 
   const [data, setData] = useState(() => [...defaultData])
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
+  const [product, setProduct] = useState<OrderLine>({
+    quantity: 0,
+    product: '',
+    price: 0,
+    total: 0,
   })
+  const [customer, setCustomer] = useState('')
+
+  const handleAddProduct = (): void => {
+    if (product) {
+      setData([...data, { ...product }])
+    }
+  }
+
+  const handleProductValue = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target
+
+    let newTotalValue = 0
+
+    if (name === 'quantity') {
+      newTotalValue = parseInt(value || '0') * product.price
+    }
+
+    if (name === 'price') {
+      newTotalValue = parseInt(value || '0') * product.quantity
+    }
+
+    setProduct({
+      ...product,
+      [name]: value,
+      total: newTotalValue,
+    })
+  }
 
   return (
     <>
@@ -55,52 +86,47 @@ export default function CreatePurchaseOrder() {
           type='text'
           placeholder='Enter a customer'
           icon='user-icon'
+          value={customer}
+          onChange={(e) => setCustomer(e.target.value)}
         />
-        <table>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            {table.getFooterGroups().map((footerGroup) => (
-              <tr key={footerGroup.id}>
-                {footerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.footer,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </tfoot>
-        </table>
+
+        <div className='flex flex-row gap-1'>
+          <input
+            name='product'
+            className='h-10 basis-1/2 rounded-md border border-gray-200 text-sm outline-2 placeholder:text-gray-500'
+            type='text'
+            placeholder='Enter a product'
+            value={product.product}
+            onChange={handleProductValue}
+          />
+          <input
+            name='quantity'
+            className='h-10 basis-2/6 rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
+            type='text'
+            placeholder='Enter a quantity'
+            value={product.quantity}
+            onChange={handleProductValue}
+          />
+          <input
+            name='price'
+            className='h-10 basis-2/6 rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
+            type='text'
+            placeholder='Enter a price'
+            value={product.price}
+            onChange={handleProductValue}
+          />
+          <input
+            name='total'
+            className='h-10 basis-2/6 rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
+            type='text'
+            value={product.total}
+            readOnly
+            onChange={handleProductValue}
+          />
+          <Button onClick={handleAddProduct}>Add</Button>
+        </div>
+
+        <BasicTable columns={columns} data={data} />
       </BaseForm>
     </>
   )

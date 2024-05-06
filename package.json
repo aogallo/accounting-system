@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
+    "@tanstack/react-table": "^8.16.0",
     "@typegoose/typegoose": "^12.1.0",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.0",
