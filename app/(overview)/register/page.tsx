@@ -1,5 +1,5 @@
-import { lusitana } from '../ui/fonts'
-import CreateUserForm from '../ui/register/CreateUserForm'
+import { lusitana } from '@/app/ui/fonts'
+import CreateUserForm from '@/app/ui/register/CreateUserForm'
 
 export default function Page() {
   return (

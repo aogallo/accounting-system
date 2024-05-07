@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next'
 import '@/app/global.css'
 import SideNav from '@/app/ui/Sidenav'

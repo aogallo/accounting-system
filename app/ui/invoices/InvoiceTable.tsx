@@ -7,8 +7,12 @@ import {
   formatString,
 } from '@/app/lib/utils'
 
-export default async function InvoiceTable({ query, currentPage }: TableProps) {
-  const invoices = await fetchInvoices(query, currentPage)
+export default async function InvoiceTable({
+  query,
+  currentPage,
+  accountType,
+}: TableProps) {
+  const invoices = await fetchInvoices(query, currentPage, accountType)
 
   return (
     <div className='mt-6 flow-root'>

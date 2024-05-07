@@ -1,26 +1,137 @@
 import { createOrUpdateCompanies } from '@/app/lib/actions/ExcelFile'
 import { InvoiceType } from '@/app/lib/definitions'
 
-const noPayableValues = [
-  'NIT del Certificador',
-  'Nombre completo del Certificador',
-]
-
 export const normalizeData = (
   data: Record<string, any>[],
-  isPayable: boolean = false
+  isReceivable: boolean = false
 ): Record<string, any>[] => {
   return data.map((row) => {
     for (const [key, value] of Object.entries(row)) {
       if (key === 'Fecha de emisión') {
-        row[key] = value.split('T')[0]
+        row['date'] = value.split('T')[0]
       }
 
-      if (isPayable) {
-        if (noPayableValues.includes(key)) {
-          delete row[key]
+      if (key === 'Serie') {
+        row['invoice'] = `Serie: ${value}`
+      }
+      if (key === 'Número del DTE') {
+        row['invoice'] += `\nDTE: ${value}`
+      }
+
+      if (isReceivable) {
+        if (key === 'ID del receptor') {
+          row['receptor'] = value
+        }
+
+        if (key === 'Nombre completo del receptor') {
+          row['receptor'] += ` - ${value}`
+        }
+      } else {
+        if (key === 'NIT del emisor') {
+          row['emisor'] = value
+        }
+        if (key === 'Nombre completo del emisor') {
+          row['emisor'] += ` - ${value}`
         }
       }
+
+      // if (key === 'NIT del Certificador') {
+      //   row['certificador'] = value
+      // }
+      //
+      // if (key === 'Nombre completo del Certificador') {
+      //   row['certificador'] += ` - ${value}`
+      // }
+
+      if (key === 'Moneda') {
+        row['currency'] = value
+      }
+
+      if (key === 'Monto (Gran Total)') {
+        row['amount'] = value
+      }
+
+      if (key === 'Estado') {
+        row['state'] = value
+      }
+
+      if (key === 'IVA (monto de este impuesto)') {
+        row['iva'] = value
+      }
+
+      if (
+        key === 'Petróleo (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] = `petróleo: ${value}`
+      }
+
+      if (
+        key === 'Turismo Hospedaje (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\nturismo-hospedaje: ${value}`
+      }
+
+      if (
+        key === 'Turismo Pasajes (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\nturismo-pasajes: ${value}`
+      }
+
+      if (
+        key === 'Timbre de Prensa (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\ntimbre-prensa: ${value}`
+      }
+
+      if (
+        key === 'Bomberos (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\nbomberos: ${value}`
+      }
+
+      if (
+        key === 'Tasa Municipal (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\ntasa-municipal: ${value}`
+      }
+
+      if (
+        key === 'Bebidas alcohólicas (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\nbebidas-alcohólicas: ${value}`
+      }
+
+      if (key === 'Tabaco (monto de este impuesto)' && parseFloat(value) > 0) {
+        row['impuestos'] += `\ntabaco: ${value}`
+      }
+
+      if (key === 'Cemento (monto de este impuesto)' && parseFloat(value) > 0) {
+        row['impuestos'] += `\ncemento: ${value}`
+      }
+
+      if (
+        key === 'Bebidas no Alcohólicas (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\nbebidas-no-alcohólicas: ${value}`
+      }
+
+      if (
+        key === 'Tarifa Portuaria (monto de este impuesto)' &&
+        parseFloat(value) > 0
+      ) {
+        row['impuestos'] += `\ntarifa-portuaria: ${value}`
+      }
+
+      // delete every key
+      delete row[key]
     }
 
     return row

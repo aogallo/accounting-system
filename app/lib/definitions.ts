@@ -1,6 +1,7 @@
 export type TableProps = {
   query: string
   currentPage: number
+  accountType?: string
 }
 
 export enum Currency {

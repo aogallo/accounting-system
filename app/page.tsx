@@ -32,7 +32,7 @@ export default async function Home() {
           LogIn
         </Link>
       )}
-      <div className='mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left'>
+      <div className='mb-32 mt-4 grid grid-cols-3 text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left'>
         <Link
           href={'/invoices/payable'}
           className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
@@ -50,7 +50,7 @@ export default async function Home() {
         </Link>
 
         <Link
-          href={'/invoices/receibable'}
+          href={'/invoices/receivable'}
           className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
           rel='noopener noreferrer'
         >
@@ -94,6 +94,22 @@ export default async function Home() {
           </h2>
           <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
             Create financials reports
+          </p>
+        </Link>
+
+        <Link
+          href={'/purchase-order'}
+          className='group cursor-pointer rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30'
+          rel='noopener noreferrer'
+        >
+          <h2 className={`mb-3 text-2xl font-semibold`}>
+            Purchase Orders{' '}
+            <span className='inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none'>
+              -&gt;
+            </span>
+          </h2>
+          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
+            Have a whole view of your income and expenses
           </p>
         </Link>
       </div>
