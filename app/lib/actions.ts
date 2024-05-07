@@ -27,7 +27,11 @@ export const authenticate = async (
   }
 }
 
-export async function fetchInvoices(query: string, currentPage: number) {
+export async function fetchInvoices(
+  query: string,
+  currentPage: number,
+  accountType: string = 'PAYABLE'
+) {
   await dbConnect()
   const offset = (currentPage - 1) * ITEMS_PER_PAGE
 
@@ -43,7 +47,7 @@ export async function fetchInvoices(query: string, currentPage: number) {
         { iva: Number(numberValue) },
         { state: regex },
       ],
-      accountType: 'PAYABLE',
+      accountType,
     }
 
     const data = await InvoiceModel.find(
