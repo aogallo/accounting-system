@@ -27,7 +27,6 @@ export const normalizeData = (
           row['receptor'] += ` - ${value}`
         }
       } else {
-        console.log('test', key, value)
         if (key === 'NIT del emisor') {
           row['emisor'] = value
         }
