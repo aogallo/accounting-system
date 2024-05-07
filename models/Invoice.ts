@@ -17,7 +17,7 @@ export interface Invoice {
 
   currency: string
 
-  amount: Number
+  amount: number
 
   state: string
 

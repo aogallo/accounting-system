@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose'
+import { Schema } from 'mongoose'
 
 const companySchema = new Schema(
   {
