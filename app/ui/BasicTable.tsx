@@ -10,7 +10,7 @@ type BasicTableProps<T> = {
   columns: ColumnDef<T>[]
 }
 
-const BasicTable = <T>({ columns, data }: BasicTableProps<T>) => {
+function BasicTable<T>({ columns, data }: BasicTableProps<T>) {
   const table = useReactTable({
     data,
     columns,
