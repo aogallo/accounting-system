@@ -69,10 +69,12 @@ export async function fetchInvoices(
   }
 }
 
-export async function fetchAccountById(id: string): Promise<Invoice | null> {
+export async function fetchAccountById(
+  id: string
+): Promise<Invoice | null | undefined> {
   await dbConnect()
   try {
-    return await InvoiceModel.findById(id)
+    return await InvoiceModel.findById(id).populate(['issuer', 'receiver'])
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error(`Failed to fetch payable account ${id}`)

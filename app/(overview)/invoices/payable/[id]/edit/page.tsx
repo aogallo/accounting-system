@@ -1,7 +1,6 @@
 import { fetchAccountById } from '@/app/lib/actions'
 import Breadcrumbs from '@/app/ui/Breadcrumbs'
 import EditPayableForm from '@/app/ui/invoices/EditPayableForm'
-import PayableEditForm from '@/app/ui/invoices/EditPayableForm'
 
 type PageProps = {
   params: {
