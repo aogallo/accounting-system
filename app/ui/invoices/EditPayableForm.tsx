@@ -1,18 +1,28 @@
 import { Invoice } from '@/models/Invoice'
 import { CurrencyDollarIcon } from '@heroicons/react/24/outline'
+import Input from '../Input'
 
 export default async function EditPayableForm({
   account,
 }: {
   account: Invoice
 }) {
+  console.log('accout', account)
   return (
     <form>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
+        <Input
+          type='text'
+          defaultValue={account.dteNumber}
+          name='dteNumber'
+          id='dteNumber'
+          label='DTE Number'
+          icon='currency'
+        />
         {/* Amount */}
         <div className='mb-4'>
           <label htmlFor='amount' className='mb-2 block text-sm font-medium'>
-            Choose an amount
+            Amount
           </label>
           <div className='relative mt-2 rounded-md'>
             <div className='relative'>
@@ -21,6 +31,7 @@ export default async function EditPayableForm({
                 name='amount'
                 type='number'
                 step='0.01'
+                defaultValue={account.amount.toString()}
                 placeholder='Enter USD amount'
                 className='peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500'
                 aria-describedby='amount-error'
