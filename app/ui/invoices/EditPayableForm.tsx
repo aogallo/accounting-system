@@ -10,7 +10,13 @@ type PageProps = {
 export default function EditPayableForm({ invoice }: PageProps) {
   return (
     <form action={updateInvoiceById}>
-      <Input name='id' id='id' defaultValue={invoice.id} hidden readOnly />
+      <Input
+        hidden={true}
+        name='id'
+        id='id'
+        defaultValue={invoice.id}
+        readOnly
+      />
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* DTE Number */}
         <Input

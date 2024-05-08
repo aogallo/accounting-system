@@ -7,11 +7,11 @@ import {
 
 type BasicTableProps<T> = {
   data: T[]
-  columns: ColumnDef<T>[]
+  columns: ColumnDef<T, any>[]
 }
 
 function BasicTable<T>({ columns, data }: BasicTableProps<T>) {
-  const table = useReactTable({
+  const table = useReactTable<T>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
