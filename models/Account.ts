@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 
 const accountSchema = new Schema(
   {
@@ -14,10 +14,5 @@ const accountSchema = new Schema(
     timestamps: true,
   }
 )
-
-export interface IAccount extends Document {
-  name: string
-  account: string
-}
 
 export default accountSchema

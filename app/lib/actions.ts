@@ -4,12 +4,11 @@ import { dbConnect } from './mongodb'
 import { InvoiceModel } from '@/models'
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
-import { Invoice } from './types/Invoice'
 
 const ITEMS_PER_PAGE = 6
 
 export const authenticate = async (
-  prevState: string | undefined,
+  _prevState: string | undefined,
   formData: FormData
 ) => {
   try {

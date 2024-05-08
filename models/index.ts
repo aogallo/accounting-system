@@ -2,7 +2,8 @@ import { model, models } from 'mongoose'
 import userSchema, { IUser } from './User'
 import invoiceSchema, { IInvoice } from './Invoice'
 import companySchema, { ICompany } from './Company'
-import accountSchema, { IAccount } from './Account'
+import accountSchema from './Account'
+import { IAccount } from '@/app/lib/interfaces'
 
 export const InvoiceModel =
   models.Invoice || model<IInvoice>('Invoice', invoiceSchema)

@@ -23,7 +23,7 @@ const UserSchema = z.object({
 type UserForm = z.infer<typeof UserSchema>
 
 export async function createUser(
-  prevState: State<UserForm>,
+  _prevState: State<UserForm>,
   formData: FormData
 ) {
   const validateFields = UserSchema.safeParse({
