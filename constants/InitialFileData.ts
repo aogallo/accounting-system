@@ -16,6 +16,10 @@ export const initialState: IInvoice = {
     name: '',
     nit: '',
   },
+  account: {
+    name: '',
+    account: '',
+  },
   serie: '',
   state: InvoiceState.VIGENTE,
   amount: 0,

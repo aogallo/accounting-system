@@ -1,6 +1,6 @@
-import { Document, Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 
-export interface IInvoice extends Document {
+export interface IInvoice {
   id?: string
 
   date: string
