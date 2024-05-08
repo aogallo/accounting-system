@@ -6,6 +6,14 @@ import { hash } from 'bcrypt'
 import { revalidatePath } from 'next/cache'
 import { dbConnect } from '../mongodb'
 
+export type ErrorState<T> = Partial<Record<keyof T, string[] | undefined>>
+
+export type State<T> = {
+  success: boolean
+  errors?: ErrorState<T>
+  message?: string
+}
+
 const UserSchema = z.object({
   user: z.string().min(3, 'User must contain at least 5 character(s)'),
   email: z.string().email(),
@@ -14,15 +22,10 @@ const UserSchema = z.object({
 
 type UserForm = z.infer<typeof UserSchema>
 
-type ErrorState = Partial<Record<keyof UserForm, string[] | undefined>>
-
-type State = {
-  success: boolean
-  errors?: ErrorState
-  message?: string
-}
-
-export async function createUser(prevState: State, formData: FormData) {
+export async function createUser(
+  prevState: State<UserForm>,
+  formData: FormData
+) {
   const validateFields = UserSchema.safeParse({
     user: formData.get('user'),
     email: formData.get('email'),
@@ -63,7 +66,6 @@ export async function createUser(prevState: State, formData: FormData) {
 
   return {
     success: true,
-
     message: 'User has been created',
   }
 }

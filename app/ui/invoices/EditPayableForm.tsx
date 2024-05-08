@@ -1,28 +1,31 @@
-import { Invoice } from '@/models/Invoice'
 import Input from '../Input'
-import { formatCurrency } from '@/app/lib/utils'
+import { Button } from '../Button'
+import { Invoice } from '@/app/lib/types/Invoice'
+import { updateInvoiceById } from '@/app/lib/actions/invoice-action'
 
-export default async function EditPayableForm({
-  account,
-}: {
-  account: Invoice
-}) {
+type PageProps = {
+  invoice: Invoice
+}
+
+export default function EditPayableForm({ invoice }: PageProps) {
   return (
-    <form>
+    <form action={updateInvoiceById}>
+      <Input name='id' id='id' defaultValue={invoice.id} hidden readOnly />
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* DTE Number */}
         <Input
           type='text'
-          defaultValue={account.dteNumber}
+          defaultValue={invoice.dteNumber}
           name='dteNumber'
           id='dteNumber'
           label='DTE Number'
           icon='bars-3'
+          readOnly
         />
         {/* Serie */}
         <Input
           type='text'
-          defaultValue={account.serie}
+          defaultValue={invoice.serie}
           name='serie'
           id='serie'
           label='Serie'
@@ -31,10 +34,10 @@ export default async function EditPayableForm({
         {/* Amount */}
         <Input
           id='amount'
+          defaultValue={invoice.amount}
           name='amount'
           type='text'
           step='0.01'
-          defaultValue={formatCurrency(account.amount, false)}
           placeholder='Enter USD amount'
           label='Amount'
           icon='currency'
@@ -42,14 +45,14 @@ export default async function EditPayableForm({
         {/* Account */}
         <Input
           id='account'
+          defaultValue={invoice.account}
           name='account'
           type='text'
-          step='0.01'
-          defaultValue={account.account}
-          placeholder='Enter USD account'
+          placeholder='Enter an account'
           label='Account'
           icon='document-glass'
         />
+        <Button type='submit'>Save</Button>
       </div>
     </form>
   )

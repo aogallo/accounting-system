@@ -12,6 +12,7 @@ import { createUser } from '@/app/lib/actions/register'
 
 export default function CreateUserForm() {
   const initialState = { success: false, message: '', errors: undefined }
+
   const [state, dispatch] = useFormState(createUser, initialState)
 
   return (

@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 
 const accountSchema = new Schema(
   {
@@ -15,7 +15,7 @@ const accountSchema = new Schema(
   }
 )
 
-export interface Account {
+export interface IAccount extends Document {
   name: string
   account: string
 }

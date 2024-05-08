@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 
 const companySchema = new Schema(
   {
@@ -15,7 +15,7 @@ const companySchema = new Schema(
   }
 )
 
-export interface Company {
+export interface ICompany extends Document {
   name: string
   nit: string
 }

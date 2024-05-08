@@ -1,10 +1,10 @@
 'use server'
 
 import { dbConnect } from './mongodb'
-import { Invoice } from '@/models/Invoice'
 import { InvoiceModel } from '@/models'
 import { signIn } from '@/auth'
 import { AuthError } from 'next-auth'
+import { Invoice } from './types/Invoice'
 
 const ITEMS_PER_PAGE = 6
 
@@ -69,12 +69,15 @@ export async function fetchInvoices(
   }
 }
 
-export async function fetchAccountById(
-  id: string
-): Promise<Invoice | null | undefined> {
-  await dbConnect()
+export async function fetchAccountById(id: string) {
   try {
-    return await InvoiceModel.findById(id).populate(['issuer', 'receiver'])
+    await dbConnect()
+    const data = await InvoiceModel.findById(id).populate([
+      'issuer',
+      'receiver',
+    ])
+    // return JSON.stringify(data)
+    return data
   } catch (error) {
     console.error('Database Error:', error)
     throw new Error(`Failed to fetch payable account ${id}`)
