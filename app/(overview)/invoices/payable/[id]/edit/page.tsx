@@ -17,7 +17,7 @@ export default async function Page({ params }: PageProps) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Payable Accounts', href: '/invoices/payable' },
+          { label: 'Payable Invoice', href: '/invoices/payable' },
           {
             href: `/invoices/payable/${id}/edit`,
             label: 'Edit Account',
