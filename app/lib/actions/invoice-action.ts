@@ -5,13 +5,7 @@ import { dbConnect } from '../mongodb'
 import { InvoiceModel } from '@/models'
 import { revalidatePath } from 'next/cache'
 
-export type ErrorState<T> = Partial<Record<keyof T, string[] | undefined>>
-
-export type State<T> = {
-  success: boolean
-  errors?: ErrorState<T>
-  message?: string
-}
+const ITEMS_PER_PAGE = 6
 
 const InvoiceSchema = z.object({
   id: z.string(),
@@ -50,5 +44,62 @@ export async function updateInvoiceById(formData: FormData) {
   return {
     success: true,
     message: 'Invoice has benn updated',
+  }
+}
+
+export async function fetchAccountById(id: string) {
+  try {
+    await dbConnect()
+    const data = await InvoiceModel.findById(id).populate([
+      'issuer',
+      'receiver',
+    ])
+    // return JSON.stringify(data)
+    return data
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error(`Failed to fetch payable account ${id}`)
+  }
+}
+
+export async function fetchInvoices(
+  query: string,
+  currentPage: number,
+  accountType: string = 'PAYABLE'
+) {
+  await dbConnect()
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE
+
+  const regex = { $regex: '.*' + query.toUpperCase() + '.*' }
+  const numberValue = query ? query.match(/\d/g)?.join('') : 0
+
+  try {
+    const queryM = {
+      $or: [
+        { serie: regex },
+        { dteNumber: regex },
+        { amount: Number(numberValue) },
+        { iva: Number(numberValue) },
+        { state: regex },
+      ],
+      accountType,
+    }
+
+    const data = await InvoiceModel.find(
+      queryM,
+      {},
+      {
+        sort: {
+          date: -1,
+        },
+        limit: ITEMS_PER_PAGE,
+        skip: offset,
+      }
+    ).populate(['issuer', 'receiver'])
+
+    return data
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch payable accounts')
   }
 }

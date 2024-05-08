@@ -1,3 +1,5 @@
+import { z } from 'zod'
+
 export type TableProps = {
   query: string
   currentPage: number
@@ -17,3 +19,18 @@ export enum InvoiceType {
   PAYABLE = 'PAYABLE',
   RECEIVABLE = 'RECEIVABLE',
 }
+
+export type ErrorState<T> = Partial<Record<keyof T, string[] | undefined>>
+
+export type State<T> = {
+  success: boolean
+  errors?: ErrorState<T>
+  message?: string
+}
+
+export const AccountSchema = z.object({
+  name: z.string(),
+  account: z.string(),
+})
+
+export type Account = z.infer<typeof AccountSchema>
