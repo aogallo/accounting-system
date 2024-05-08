@@ -1,6 +1,8 @@
-import { Schema, model, models } from 'mongoose'
+import { Schema } from 'mongoose'
 
-export interface Invoice {
+export interface IInvoice {
+  id?: string
+
   date: string
 
   authorizationNumber: string
@@ -17,7 +19,7 @@ export interface Invoice {
 
   currency: string
 
-  amount: Number
+  amount: number
 
   state: string
 
@@ -26,6 +28,8 @@ export interface Invoice {
   accountType: string
 
   avoidDate?: string
+
+  account?: { account: string; name: string }
 
   metadata: {
     petroleum?: number
@@ -73,6 +77,11 @@ const invoiceSchema = new Schema(
     currency: { type: String, enum: ['GTQ', 'USD'], default: 'GTQ' },
 
     amount: Number,
+
+    account: {
+      type: Schema.Types.ObjectId,
+      ref: 'Account',
+    },
 
     state: {
       type: String,
@@ -125,12 +134,15 @@ export enum InvoiceState {
   VIGENTE = 'Vigente',
   ANULADO = 'Anulado',
 }
+
 export enum InvoiceType {
   PAYABLE = 'PAYABLE',
   RECEIVABLE = 'RECEIVABLE',
 }
+
 export enum Currency {
   GTQ = 'GTQ',
   USD = 'USD',
 }
+
 export default invoiceSchema

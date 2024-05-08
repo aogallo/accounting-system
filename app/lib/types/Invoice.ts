@@ -15,6 +15,7 @@ export const InvoiceMetadataSchema = z.object({
 })
 
 export const InvoiceSchema = z.object({
+  id: z.string(),
   date: z.string(),
   authorizationNumber: z.string(),
   type: z.string(),
@@ -24,6 +25,7 @@ export const InvoiceSchema = z.object({
   receiverId: z.string(), //nit del receptor
   currency: z.string(),
   amount: z.string(),
+  account: z.string(),
   state: z.string(),
   iva: z.string(),
   accountType: z.string(),
