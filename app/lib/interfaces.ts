@@ -5,4 +5,4 @@ export const AccountSchema = z.object({
   account: z.string(),
 })
 
-export type IAccount = z.infer<typeof AccountSchema>
+export type Account = z.infer<typeof AccountSchema>
