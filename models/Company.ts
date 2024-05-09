@@ -15,9 +15,4 @@ const companySchema = new Schema(
   }
 )
 
-export interface ICompany extends Document {
-  name: string
-  nit: string
-}
-
 export default companySchema

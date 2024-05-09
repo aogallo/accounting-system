@@ -34,3 +34,10 @@ export const AccountSchema = z.object({
 })
 
 export type Account = z.infer<typeof AccountSchema>
+
+export const CompanySchema = z.object({
+  name: z.string(),
+  nit: z.string(),
+})
+
+export type Company = z.infer<typeof CompanySchema>
