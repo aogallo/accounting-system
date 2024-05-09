@@ -1,9 +1,9 @@
 'use server'
 
 import { UserModel } from '@/models'
-import { z } from 'zod'
 import { hash } from 'bcrypt'
 import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
 import { dbConnect } from '../mongodb'
 
 export type ErrorState<T> = Partial<Record<keyof T, string[] | undefined>>
