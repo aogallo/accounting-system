@@ -1,11 +1,11 @@
-import { fetchInvoices } from '@/app/lib/actions'
+import { fetchInvoices } from '@/app/lib/actions/invoice-action'
 import { TableProps } from '@/app/lib/definitions'
-import { UpdateInvoice } from '../buttons'
 import {
   formatCurrency,
   formatDateToLocal,
   formatString,
 } from '@/app/lib/utils'
+import { UpdateInvoice } from '../buttons'
 
 export default async function InvoiceTable({
   query,

@@ -1,6 +1,28 @@
 {
-  "extends": ["next/core-web-vitals", "next", "prettier"],
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "next",
+    "prettier",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
   "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal"],
+        "pathGroups": [
+          { "pattern": "react", "group": "external", "position": "before" }
+        ],
+        "pathGroupsExcludedImportTypes": ["react"],
+        "newliens-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
     "no-console": [
       "error",
       {
