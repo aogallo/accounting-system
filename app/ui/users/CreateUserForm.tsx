@@ -2,7 +2,7 @@
 
 import { createUser } from '@/app/lib/actions/users'
 import Link from 'next/link'
-import { useFormState } from 'react-dom'
+import { useFormState, useFormStatus } from 'react-dom'
 import { Button } from '../Button'
 import Input from '../Input'
 
@@ -10,6 +10,7 @@ export default function CreateUserForm() {
   const initialState = { success: false, message: '', errors: undefined }
 
   const [state, dispatch] = useFormState(createUser, initialState)
+  const { pending } = useFormStatus()
 
   return (
     <form action={dispatch}>
@@ -65,7 +66,9 @@ export default function CreateUserForm() {
         >
           Cancel
         </Link>
-        <Button type='submit'>Create User</Button>
+        <Button type='submit' aria-disabled={pending} isLoading={pending}>
+          Create User
+        </Button>
       </div>
     </form>
   )
