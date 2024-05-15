@@ -84,6 +84,11 @@ export const InvoiceSchema = z.object({
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 
-export const UserSchema = z.object({})
+export const UserSchema = z.object({
+  user: z.string().min(3, 'User must contain at least 5 character(s)'),
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string().min(5, 'Password must contain at least 5 character(s)'),
+})
 
 export type User = z.infer<typeof UserSchema>

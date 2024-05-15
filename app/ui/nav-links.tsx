@@ -32,8 +32,8 @@ const links: LinksType[] = [
     icon: BanknotesIcon,
   },
   {
-    name: 'Register',
-    href: '/register',
+    name: 'Users',
+    href: '/users',
     icon: UserIcon,
   },
   {

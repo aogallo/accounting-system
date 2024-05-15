@@ -5,20 +5,7 @@ import { hash } from 'bcrypt'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { dbConnect } from '../mongodb'
-
-export type ErrorState<T> = Partial<Record<keyof T, string[] | undefined>>
-
-export type State<T> = {
-  success: boolean
-  errors?: ErrorState<T>
-  message?: string
-}
-
-const UserSchema = z.object({
-  user: z.string().min(3, 'User must contain at least 5 character(s)'),
-  email: z.string().email(),
-  password: z.string().min(5, 'Password must contain at least 5 character(s)'),
-})
+import { State, UserSchema } from '@/app/lib/definitions'
 
 type UserForm = z.infer<typeof UserSchema>
 
@@ -29,6 +16,7 @@ export async function createUser(
   const validateFields = UserSchema.safeParse({
     user: formData.get('user'),
     email: formData.get('email'),
+    name: formData.get('name'),
     password: formData.get('password'),
   })
 
@@ -40,7 +28,7 @@ export async function createUser(
     }
   }
 
-  const { user, email, password } = validateFields.data
+  const { user, email, name, password } = validateFields.data
 
   await dbConnect()
 
@@ -57,6 +45,7 @@ export async function createUser(
   const newUser = await UserModel.create({
     user,
     email,
+    name,
     password: hashedPassword,
   })
 

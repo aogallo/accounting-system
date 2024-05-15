@@ -8,7 +8,7 @@ import {
 import Link from 'next/link'
 import { Button } from '../Button'
 import { useFormState } from 'react-dom'
-import { createUser } from '@/app/lib/actions/register'
+import { createUser } from '@/app/lib/actions/users'
 
 export default function CreateUserForm() {
   const initialState = { success: false, message: '', errors: undefined }
