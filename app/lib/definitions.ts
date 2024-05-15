@@ -1,3 +1,4 @@
+import userSchema from '@/models/User'
 import { z } from 'zod'
 
 export type TableProps = {
@@ -41,3 +42,48 @@ export const CompanySchema = z.object({
 })
 
 export type Company = z.infer<typeof CompanySchema>
+
+export const InvoiceSchema = z.object({
+  date: z.string().datetime(),
+
+  authorizationNumber: z.string(),
+
+  type: z.enum(['payable', 'receivable']),
+
+  serie: z.string(),
+
+  dteNumber: z.string(),
+
+  customer: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+
+  company: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+
+  currency: z.enum(['GTQ', 'USD']),
+
+  amount: z.number(),
+
+  account: z.object({
+    id: z.string(),
+    account: z.string(),
+  }),
+
+  state: z.enum(['Vigente', 'Anulado']),
+
+  iva: z.number(),
+
+  avoidDate: z.string().datetime(),
+
+  metadata: z.record(z.string(), z.number()).optional(),
+})
+
+export type Invoice = z.infer<typeof InvoiceSchema>
+
+export const UserSchema = z.object({})
+
+export type User = z.infer<typeof UserSchema>

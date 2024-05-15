@@ -12,6 +12,14 @@ const accountSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_document, record) => {
+        record.id = record._id as string
+        delete record._id
+        delete record.__v
+        return record
+      },
+    },
   }
 )
 
