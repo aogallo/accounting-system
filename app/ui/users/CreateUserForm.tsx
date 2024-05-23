@@ -60,13 +60,8 @@ export default function CreateUserForm() {
         />
 
         <div id='' aria-live='polite' aria-atomic='true'>
-          {state && (
-            <p
-              className={clsx('text-md mt-2 font-bold', {
-                'text-green-500': state.success,
-                'text-red-500': !state.success,
-              })}
-            >
+          {state.success && (
+            <p className='text-md mt-2 font-bold text-green-500'>
               {state.message}
             </p>
           )}
