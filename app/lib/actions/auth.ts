@@ -27,3 +27,7 @@ export async function getSession() {
   const sessionId = cookies().get('sessionId')?.value
   return sessionId ? '' : null
 }
+
+export async function handleLogin(sessionData) {
+  const encryptedSessionData = encrypt(sessionData)
+}
