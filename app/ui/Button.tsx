@@ -1,13 +1,13 @@
 import clsx from 'clsx'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading: boolean
+  isLoading?: boolean
   children: React.ReactNode
 }
 
 export function Button({
   children,
-  isLoading,
+  isLoading = false,
   className,
   ...rest
 }: ButtonProps) {

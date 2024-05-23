@@ -86,7 +86,7 @@ export type Invoice = z.infer<typeof InvoiceSchema>
 
 export const UserSchema = z.object({
   user: z.string().min(3, 'User must contain at least 5 character(s)'),
-  name: z.string(),
+  name: z.string().min(3, 'Name must contain at least 3 character(s)'),
   email: z.string().email(),
   password: z.string().min(5, 'Password must contain at least 5 character(s)'),
 })

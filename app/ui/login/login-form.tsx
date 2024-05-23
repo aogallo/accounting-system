@@ -1,13 +1,13 @@
 'use client'
 
+import { authenticate } from '@/app/lib/actions/auth'
 import {
-    ExclamationCircleIcon,
-    KeyIcon,
-    UserIcon,
+  ExclamationCircleIcon,
+  KeyIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Button } from '../Button'
-import { authenticate } from '@/app/lib/actions/auth'
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined)
@@ -85,3 +85,4 @@ function LoginButton() {
     </Button>
   )
 }
+

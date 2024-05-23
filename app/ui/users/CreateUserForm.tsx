@@ -5,11 +5,13 @@ import Link from 'next/link'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Button } from '../Button'
 import Input from '../Input'
+import clsx from 'clsx'
 
 export default function CreateUserForm() {
   const initialState = { success: false, message: '', errors: undefined }
 
   const [state, dispatch] = useFormState(createUser, initialState)
+  console.log('state', state)
   const { pending } = useFormStatus()
 
   return (
@@ -22,6 +24,7 @@ export default function CreateUserForm() {
           icon='pencil'
           placeholder='Enter a name'
           label='Name'
+          errors={state.errors?.name}
         />
 
         {/* Useer */}
@@ -31,6 +34,7 @@ export default function CreateUserForm() {
           icon='user-icon'
           placeholder='Enter a user'
           label='User'
+          errors={state.errors?.user}
         />
 
         {/* Email */}
@@ -41,6 +45,7 @@ export default function CreateUserForm() {
           icon='at-symbol'
           placeholder='Enter a email'
           label='Email'
+          errors={state.errors?.email}
         />
 
         {/* Password */}
@@ -51,11 +56,19 @@ export default function CreateUserForm() {
           icon='lock-closed'
           placeholder='Enter a password'
           label='Password'
+          errors={state.errors?.password}
         />
 
         <div id='' aria-live='polite' aria-atomic='true'>
-          {state.success && (
-            <p className='mt-2 text-sm text-green-500'>{state.message}</p>
+          {state && (
+            <p
+              className={clsx('text-md mt-2 font-bold', {
+                'text-green-500': state.success,
+                'text-red-500': !state.success,
+              })}
+            >
+              {state.message}
+            </p>
           )}
         </div>
       </div>
