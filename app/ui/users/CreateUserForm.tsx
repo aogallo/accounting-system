@@ -6,6 +6,8 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { Button } from '../Button'
 import Input from '../Input'
 import clsx from 'clsx'
+import { useToast } from '@/components/ui/use-toast'
+import { Toaster } from '@/components/ui/toaster'
 
 export default function CreateUserForm() {
   const initialState = { success: false, message: '', errors: undefined }
@@ -13,6 +15,14 @@ export default function CreateUserForm() {
   const [state, dispatch] = useFormState(createUser, initialState)
   console.log('state', state)
   const { pending } = useFormStatus()
+  const { toast } = useToast()
+
+  if (!state.errors) {
+    toast({
+      title: state.message,
+      variant: state.success ? 'default' : 'destructive',
+    })
+  }
 
   return (
     <form action={dispatch}>
@@ -58,14 +68,6 @@ export default function CreateUserForm() {
           label='Password'
           errors={state.errors?.password}
         />
-
-        <div id='' aria-live='polite' aria-atomic='true'>
-          {state.success && (
-            <p className='text-md mt-2 font-bold text-green-500'>
-              {state.message}
-            </p>
-          )}
-        </div>
       </div>
       <div className='mt-6 flex justify-end gap-4'>
         <Link

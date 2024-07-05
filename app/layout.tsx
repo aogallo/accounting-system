@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '@/app/global.css'
 import { inter } from '@/app/ui/fonts'
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: 'Accouting System',
