@@ -1,16 +1,54 @@
 'use server'
 
+import { State, User, UserSchema } from '@/app/lib/definitions'
 import { UserModel } from '@/models'
 import { hash } from 'bcrypt'
+import { flattenValidationErrors } from 'next-safe-action'
 import { revalidatePath } from 'next/cache'
-import { z } from 'zod'
 import { dbConnect } from '../mongodb'
-import { State, UserSchema } from '@/app/lib/definitions'
+import { actionClient } from '../safe-action'
 
-type UserForm = z.infer<typeof UserSchema>
+export const createUser = actionClient
+  .metadata({ actionName: 'create user' })
+  .schema(UserSchema, {
+    handleValidationErrorsShape: (ve) =>
+      flattenValidationErrors(ve).fieldErrors,
+  })
+  .action(async ({ parsedInput }) => {
+    const { user, email, name, password } = parsedInput
 
-export async function createUser(
-  _prevState: State<UserForm>,
+    await dbConnect()
+
+    const dbUser = await UserModel.findOne({ user, email })
+
+    if (dbUser !== null) {
+      return {
+        success: false,
+        message: 'User already exists',
+      }
+      // throw new Error('User already exists')
+    }
+
+    const hashedPassword = await hash(password, 10)
+    const newUser = await UserModel.create({
+      user,
+      email,
+      name,
+      password: hashedPassword,
+    })
+
+    await newUser.save()
+
+    revalidatePath('/')
+
+    return {
+      success: true,
+      message: 'User has been created',
+    }
+  })
+
+export async function createUserOld(
+  _prevState: State<User>,
   formData: FormData
 ) {
   const validateFields = UserSchema.safeParse({
@@ -19,8 +57,6 @@ export async function createUser(
     name: formData.get('name'),
     password: formData.get('password'),
   })
-
-
 
   if (!validateFields.success) {
     return {

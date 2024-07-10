@@ -1,5 +1,5 @@
-import userSchema from '@/models/User'
 import { z } from 'zod'
+import { zfd } from 'zod-form-data'
 
 export type TableProps = {
   query: string
@@ -84,11 +84,17 @@ export const InvoiceSchema = z.object({
 
 export type Invoice = z.infer<typeof InvoiceSchema>
 
-export const UserSchema = z.object({
-  user: z.string().min(3, 'User must contain at least 3 character(s)'),
-  name: z.string().min(3, 'Name must contain at least 3 character(s)'),
-  email: z.string().email(),
-  password: z.string().min(5, 'Password must contain at least 5 character(s)'),
+export const UserSchema = zfd.formData({
+  user: zfd.text(
+    z.string().min(3, 'User must contain at least 3 character(s)')
+  ),
+  name: zfd.text(
+    z.string().min(3, 'Name must contain at least 3 character(s)')
+  ),
+  email: zfd.text(z.string().email()),
+  password: zfd.text(
+    z.string().min(5, 'Password must contain at least 5 character(s)')
+  ),
 })
 
 export type User = z.infer<typeof UserSchema>

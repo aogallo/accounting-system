@@ -1,29 +1,30 @@
 'use client'
 
 import { createUser } from '@/app/lib/actions/users'
+import { useToast } from '@/components/ui/use-toast'
+import { useAction } from 'next-safe-action/hooks'
 import Link from 'next/link'
-import { useFormState, useFormStatus } from 'react-dom'
 import { Button } from '../Button'
 import Input from '../Input'
-import { useToast } from '@/components/ui/use-toast'
 
 export default function CreateUserForm() {
-  const initialState = { success: false, message: '', errors: undefined }
-
-  const [state, dispatch] = useFormState(createUser, initialState)
-  const { pending } = useFormStatus()
   const { toast } = useToast()
+  const { execute, result, isExecuting, status } = useAction(createUser, {
+    onSettled: ({ result, input }) => {
+      console.log('onSettled', result, input)
+      toast({
+        title: result.data?.message,
+        description: result.data?.message,
+        variant: result.data?.success ? 'default' : 'destructive',
+      })
+    },
+  })
 
-  if (state.message && !state.errors) {
-    toast({
-      description: state.message,
-      variant: state.success ? 'default' : 'destructive',
-    })
-  }
+  console.log(status)
 
   return (
     <>
-      <form action={dispatch}>
+      <form action={execute}>
         <div className='rounded-md bg-gray-50 p-4 md:p-6'>
           {/* Name */}
           <Input
@@ -32,7 +33,7 @@ export default function CreateUserForm() {
             icon='pencil'
             placeholder='Enter a name'
             label='Name'
-            errors={state.errors?.name}
+            errors={result.validationErrors?.name}
           />
 
           {/* Useer */}
@@ -42,7 +43,7 @@ export default function CreateUserForm() {
             icon='user-icon'
             placeholder='Enter a user'
             label='User'
-            errors={state.errors?.user}
+            errors={result.validationErrors?.user}
           />
 
           {/* Email */}
@@ -53,7 +54,7 @@ export default function CreateUserForm() {
             icon='at-symbol'
             placeholder='Enter a email'
             label='Email'
-            errors={state.errors?.email}
+            errors={result.validationErrors?.email}
           />
 
           {/* Password */}
@@ -64,7 +65,7 @@ export default function CreateUserForm() {
             icon='lock-closed'
             placeholder='Enter a password'
             label='Password'
-            errors={state.errors?.password}
+            errors={result.validationErrors?.password}
           />
         </div>
         <div className='mt-6 flex justify-end gap-4'>
@@ -74,7 +75,11 @@ export default function CreateUserForm() {
           >
             Cancel
           </Link>
-          <Button type='submit' aria-disabled={pending} isLoading={pending}>
+          <Button
+            type='submit'
+            aria-disabled={isExecuting}
+            isLoading={isExecuting}
+          >
             Create User
           </Button>
         </div>
