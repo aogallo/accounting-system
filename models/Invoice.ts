@@ -1,148 +1,94 @@
 import { Schema } from 'mongoose'
 
-export interface IInvoice {
-  id?: string
-
-  date: string
-
-  authorizationNumber: string
-
-  type: string
-
-  serie: string
-
-  dteNumber: string
-
-  issuer: { nit: string; name: string }
-
-  receiver: { nit: string; name: string }
-
-  currency: string
-
-  amount: number
-
-  state: string
-
-  iva: number
-
-  accountType: string
-
-  avoidDate?: string
-
-  account?: { account: string; name: string }
-
-  metadata: {
-    petroleum?: number
-
-    accommodation?: number
-
-    tickets?: number
-
-    pressStamp?: number
-    firefighters?: number
-
-    municipalTax?: number
-
-    alcoholicBeverages?: number
-
-    tobacco?: number
-
-    cement?: number
-
-    nonAlcoholicBeverages?: number
-
-    portFee?: number
-  }
-}
-
 const invoiceSchema = new Schema(
   {
-    date: String,
-
+    /**
+     * Date: Date when the invoce has been created
+     */
+    date: Date,
+    /**
+     * Authorization Number: Number from the authorization partner
+     */
     authorizationNumber: String,
-
-    type: String,
-
+    /**
+     * Type: Type of the invoice can be PAYABLE and RECEIVABLE
+     */
+    type: {
+      type: String,
+      enum: ['payable', 'receivable'],
+      default: 'payable',
+    },
+    /**
+     * Serie
+     */
     serie: String,
-
+    /**
+     * DTE NUmber: Invocie Number
+     */
     dteNumber: String,
-
-    issuer: {
+    /**
+     *  Customer: Entity who receives the invoice
+     */
+    customer: {
       type: Schema.Types.ObjectId,
       ref: 'Company',
     },
-
-    receiver: { type: Schema.Types.ObjectId, ref: 'Company' }, //nit del receptor
-
+    /**
+     *  Company: Entity who creates or give the invoice
+     */
+    company: { type: Schema.Types.ObjectId, ref: 'Company' },
+    /**
+     * Currency
+     */
     currency: { type: String, enum: ['GTQ', 'USD'], default: 'GTQ' },
-
+    /**
+     *  Amount
+     */
     amount: Number,
-
+    /**
+     *  Account: Number of account
+     */
     account: {
       type: Schema.Types.ObjectId,
       ref: 'Account',
     },
-
+    /**
+     *  Invoice State
+     */
     state: {
       type: String,
       enum: ['Vigente', 'Anulado'],
       default: 'Vigente',
     },
-
+    /**
+     *  Iva
+     */
     iva: Number,
-
-    accountType: {
-      type: String,
-      enum: ['PAYABLE', 'RECEIVABLE'],
-      default: 'PAYABLE',
-    },
-
+    /**
+     *  Avoid date
+     */
     avoidDate: {
       type: String,
     },
-
+    /**
+     *  Metadata: All extra information for the Invoice i.e. every taxes
+     */
     metadata: {
-      petroleum: Number,
-
-      accommodation: Number,
-
-      tickets: Number,
-
-      pressStamp: Number,
-
-      firefighters: Number,
-
-      municipalTax: Number,
-
-      alcoholicBeverages: Number,
-
-      tobacco: Number,
-
-      cement: Number,
-
-      nonAlcoholicBeverages: Number,
-
-      portFee: Number,
+      type: Map,
+      of: Number,
     },
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_document, record) => {
+        record.id = record._id as string
+        delete record._id
+        delete record.__v
+        return record
+      },
+    },
   }
 )
-
-export enum InvoiceState {
-  VIGENTE = 'Vigente',
-  ANULADO = 'Anulado',
-}
-
-export enum InvoiceType {
-  PAYABLE = 'PAYABLE',
-  RECEIVABLE = 'RECEIVABLE',
-}
-
-export enum Currency {
-  GTQ = 'GTQ',
-  USD = 'USD',
-}
 
 export default invoiceSchema

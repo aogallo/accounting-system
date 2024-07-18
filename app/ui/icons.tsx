@@ -5,6 +5,7 @@ import {
   CurrencyDollarIcon,
   DocumentMagnifyingGlassIcon,
   LockClosedIcon,
+  PencilIcon,
   UserIcon,
 } from '@heroicons/react/24/outline'
 
@@ -19,4 +20,5 @@ export const iconsAvailable = {
   'bars-3': <Bars3Icon className={classNameIcon} />,
   document: <ClipboardDocumentIcon className={classNameIcon} />,
   'document-glass': <DocumentMagnifyingGlassIcon className={classNameIcon} />,
+  'pencil': <PencilIcon className={classNameIcon} />
 }

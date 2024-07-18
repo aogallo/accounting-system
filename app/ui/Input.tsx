@@ -5,7 +5,7 @@ import { iconsAvailable } from './icons'
 type InputProps = {
   label?: string
   icon?: keyof typeof iconsAvailable
-  errors?: Record<string, string[]>
+  errors?: string[]
   className?: string
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
@@ -27,7 +27,7 @@ const Input = ({
     <>
       <div className='mb-4'>
         {label && (
-          <label htmlFor='user' className='mb-2 block text-sm font-medium '>
+          <label htmlFor={name} className='mb-2 block text-sm font-medium '>
             {label}
           </label>
         )}
@@ -45,9 +45,9 @@ const Input = ({
         </div>
       </div>
       <div id={`${name}-error`} aria-live='polite' aria-atomic='true'>
-        {errors?.user &&
-          errors.user.map((error) => (
-            <p className='mt-2 text-sm text-red-500' key={error}>
+        {errors &&
+          errors.map((error) => (
+            <p className='my-2 text-sm text-red-500' key={error}>
               {error}
             </p>
           ))}

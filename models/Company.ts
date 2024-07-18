@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose'
+import { Schema } from 'mongoose'
 
 const companySchema = new Schema(
   {
@@ -12,12 +12,15 @@ const companySchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform: (_document, record) => {
+        record.id = record._id as string
+        delete record._id
+        delete record.__v
+        return record
+      },
+    },
   }
 )
-
-export interface ICompany extends Document {
-  name: string
-  nit: string
-}
 
 export default companySchema

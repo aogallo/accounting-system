@@ -5,6 +5,10 @@ const conn = {
 }
 
 export async function dbConnect() {
+  if (!process.env.MONGODB_URI) {
+    throw new Error('Invalid/Missing connection')
+  }
+
   if (conn.isConnected) {
     return
   }

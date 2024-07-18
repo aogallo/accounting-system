@@ -1,6 +1,6 @@
 'use client'
 
-import { authenticate } from '@/app/lib/actions/login'
+import { authenticate } from '@/app/lib/actions/auth'
 import {
   ExclamationCircleIcon,
   KeyIcon,
