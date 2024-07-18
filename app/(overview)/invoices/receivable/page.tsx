@@ -1,5 +1,4 @@
 import Pagination from '@/app/ui/Pagination'
-import { lusitana } from '@/app/ui/fonts'
 import InvoiceTable from '@/app/ui/invoices/InvoiceTable'
 import Search from '@/app/ui/search'
 import { Suspense } from 'react'

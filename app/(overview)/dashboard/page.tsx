@@ -1,3 +1,4 @@
+import TitlePage from '@/app/ui/TitlePage'
 import {
   Card,
   CardContent,
@@ -9,6 +10,8 @@ import {
 export default function Page() {
   return (
     <>
+      <TitlePage title='Receivable Invoices' />
+
       <div className='grid grid-cols-3 gap-5'>
         <Card>
           <CardHeader>
