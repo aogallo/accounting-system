@@ -95,7 +95,7 @@ export async function fetchInvoices(
         limit: ITEMS_PER_PAGE,
         skip: offset,
       }
-    ).populate(['issuer', 'receiver'])
+    ).populate(['customer', 'company'])
 
     return data
   } catch (error) {

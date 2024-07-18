@@ -11,7 +11,6 @@ import {
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
-import { useSession } from 'next-auth/react'
 
 type LinksType = {
   name: string
@@ -20,7 +19,7 @@ type LinksType = {
 }
 
 const links: LinksType[] = [
-  { name: 'Home', href: '/', icon: HomeIcon },
+  { name: 'Dasboard', href: '/dashboard', icon: HomeIcon },
   {
     name: 'Payable Invoices',
     href: '/invoices/payable',
