@@ -1,13 +1,15 @@
 'use client'
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import clsx from 'clsx'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useDebouncedCallback } from 'use-debounce'
 
 type SearchProps = {
   placeholder?: string
+  className?: string
 }
-const Search = ({ placeholder = 'Search...' }: SearchProps) => {
+const Search = ({ placeholder = 'Search...', className }: SearchProps) => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()
@@ -25,7 +27,7 @@ const Search = ({ placeholder = 'Search...' }: SearchProps) => {
   })
 
   return (
-    <div className='relative flex flex-1 flex-shrink-0'>
+    <div className={clsx('relative flex flex-1 flex-shrink-0', className)}>
       <label className='sr-only' htmlFor='search'>
         Search
       </label>

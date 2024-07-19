@@ -3,9 +3,9 @@
 import {
   BanknotesIcon,
   CalculatorIcon,
+  ChartBarIcon,
   CircleStackIcon,
   CreditCardIcon,
-  HomeIcon,
   UserIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
@@ -15,11 +15,11 @@ import clsx from 'clsx'
 type LinksType = {
   name: string
   href: string
-  icon: typeof HomeIcon
+  icon: typeof ChartBarIcon
 }
 
 const links: LinksType[] = [
-  { name: 'Dasboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Dasboard', href: '/dashboard', icon: ChartBarIcon },
   {
     name: 'Payable Invoices',
     href: '/invoices/payable',

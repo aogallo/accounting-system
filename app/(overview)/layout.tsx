@@ -23,7 +23,6 @@ export default function RootLayout({
             <SideNav />
           </div>
           <div className='flex-grow p-3 md:overflow-y-auto md:p-6'>
-            <Header />
             {children}
             <Toaster />
           </div>

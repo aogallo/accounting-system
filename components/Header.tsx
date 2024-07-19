@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 
 export const Header = () => {
   return (
-    <div className='grid  justify-items-end'>
+    <div className='grid justify-items-end'>
       <div className='flex justify-items-center gap-5'>
         <Avatar>
           <AvatarImage src='https://github.com/shadcn.png' />
