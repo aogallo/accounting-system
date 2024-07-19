@@ -3,6 +3,7 @@ import '@/app/global.css'
 import SideNav from '@/components/Sidenav'
 import { inter } from '@/components/fonts'
 import { Toaster } from '@/components/ui/toaster'
+import { Header } from '@/components/Header'
 
 export const metadata: Metadata = {
   title: 'Accouting System',
@@ -21,7 +22,8 @@ export default function RootLayout({
           <div className='w-full flex-none md:w-64'>
             <SideNav />
           </div>
-          <div className='flex-grow p-6 md:overflow-y-auto md:p-12'>
+          <div className='flex-grow p-3 md:overflow-y-auto md:p-6'>
+            <Header />
             {children}
             <Toaster />
           </div>
