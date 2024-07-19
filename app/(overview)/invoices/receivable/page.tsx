@@ -1,10 +1,10 @@
-import Pagination from '@/app/ui/Pagination'
-import InvoiceTable from '@/app/ui/invoices/InvoiceTable'
-import Search from '@/app/ui/search'
+import Pagination from '@/components/Pagination'
+import InvoiceTable from '@/components/invoices/InvoiceTable'
+import { InvoceTableSkeleton } from '@/components/invoices/InvoiceTableSkeleton'
+import Search from '@/components/search'
+import TitlePage from '@/components/title-page'
 import { Suspense } from 'react'
 import { PageProps } from '../payable/page'
-import { InvoceTableSkeleton } from '@/app/ui/invoices/InvoiceTableSkeleton'
-import TitlePage from '@/components/title-page'
 
 export default function Page({ searchParams }: PageProps) {
   const query = searchParams?.query || ''

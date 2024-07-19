@@ -1,5 +1,5 @@
-import { lusitana } from '@/app/ui/fonts'
-import CreatePurchaseOrder from '@/app/ui/purchase-order/CreatePurchaseOrder'
+import { lusitana } from '@/components/fonts'
+import CreatePurchaseOrder from '@/components/purchase-order/CreatePurchaseOrder'
 
 export default function Page() {
   return (

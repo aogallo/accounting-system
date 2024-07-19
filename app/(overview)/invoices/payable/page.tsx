@@ -1,13 +1,13 @@
-import Pagination from '@/app/ui/Pagination'
+import Pagination from '@/components/Pagination'
 import {
   CreatePayableAccount,
   UploadPayableAccountFile,
-} from '@/app/ui/buttons'
-import { lusitana } from '@/app/ui/fonts'
+} from '@/components/buttons'
+import { lusitana } from '@/components/fonts'
 
-import InvoiceTable from '@/app/ui/invoices/InvoiceTable'
-import { InvoceTableSkeleton } from '@/app/ui/invoices/InvoiceTableSkeleton'
-import Search from '@/app/ui/search'
+import InvoiceTable from '@/components/invoices/InvoiceTable'
+import { InvoceTableSkeleton } from '@/components/invoices/InvoiceTableSkeleton'
+import Search from '@/components/search'
 import { Suspense } from 'react'
 
 export type PageProps = {

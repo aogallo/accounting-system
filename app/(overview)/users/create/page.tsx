@@ -1,5 +1,5 @@
-import Breadcrumbs from '@/app/ui/Breadcrumbs'
-import CreateUserForm from '@/app/ui/users/CreateUserForm'
+import Breadcrumbs from '@/components/Breadcrumbs'
+import CreateUserForm from '@/components/users/CreateUserForm'
 
 export default function Page() {
   return (

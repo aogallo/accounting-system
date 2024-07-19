@@ -1,7 +1,7 @@
 'use client'
 
 import { uploadExcel } from '@/app/lib/actions/ExcelFile'
-import { Button } from '@/app/ui/Button'
+import { Button } from '@/components/Button'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import * as XLSX from 'xlsx'
 import { normalizeData, normalizeDataToSave } from './normalize-data'
