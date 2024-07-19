@@ -96,3 +96,13 @@ export async function createUserOld(
     message: 'User has been created',
   }
 }
+
+export const getAllUsers = async () => {
+  try {
+    await dbConnect()
+    return await UserModel.find()
+  } catch (error) {
+    console.error('Database Error:', error)
+    throw new Error('Failed to fetch users')
+  }
+}

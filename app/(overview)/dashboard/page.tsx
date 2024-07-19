@@ -1,4 +1,4 @@
-import TitlePage from '@/app/ui/TitlePage'
+import TitlePage from '@/components/title-page'
 import {
   Card,
   CardContent,

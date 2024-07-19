@@ -5,9 +5,9 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { useDebouncedCallback } from 'use-debounce'
 
 type SearchProps = {
-  placeholder: string
+  placeholder?: string
 }
-const Search = ({ placeholder }: SearchProps) => {
+const Search = ({ placeholder = 'Search...' }: SearchProps) => {
   const searchParams = useSearchParams()
   const pathname = usePathname()
   const { replace } = useRouter()

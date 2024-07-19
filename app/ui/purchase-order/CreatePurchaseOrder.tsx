@@ -1,11 +1,12 @@
 'use client'
 
-import { createColumnHelper } from '@tanstack/react-table'
+import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { ChangeEvent, useState } from 'react'
 import BaseForm from '../BaseForm'
 import Input from '../Input'
 import { Button } from '../Button'
 import BasicTable from '../BasicTable'
+import { DataTable } from '../DataTable'
 
 type OrderLine = {
   quantity: number
@@ -34,6 +35,25 @@ export default function CreatePurchaseOrder() {
       cell: (info) => info.getValue(),
       header: 'Total',
     }),
+  ]
+
+  const columnsV2: ColumnDef<OrderLine>[] = [
+    {
+      accessorKey: 'product',
+      header: 'Product',
+    },
+    {
+      accessorKey: 'quantity',
+      header: 'Quantity',
+    },
+    {
+      accessorKey: 'price',
+      header: 'Price',
+    },
+    {
+      accessorKey: 'total',
+      header: 'Total',
+    },
   ]
 
   const [data, setData] = useState(() => [...defaultData])
@@ -120,7 +140,8 @@ export default function CreatePurchaseOrder() {
           <Button onClick={handleAddProduct}>Add</Button>
         </div>
 
-        <BasicTable columns={columns} data={data} />
+        <DataTable columns={columnsV2} data={data} />
+        {/* <BasicTable columns={columns} data={data} /> */}
       </BaseForm>
     </>
   )

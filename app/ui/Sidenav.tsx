@@ -1,5 +1,5 @@
 import { PowerIcon } from '@heroicons/react/24/outline'
-import NavLinks from './nav-links'
+import NavLinks from '@/components/nav-links'
 import { signOut } from '@/auth'
 
 export default async function SideNav() {

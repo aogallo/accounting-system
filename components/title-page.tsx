@@ -1,5 +1,3 @@
-import { lusitana } from './fonts'
-
 type TitlePageProps = {
   title: string
 }
@@ -7,7 +5,7 @@ type TitlePageProps = {
 export default function TitlePage({ title }: TitlePageProps) {
   return (
     <div className='flex w-full items-center justify-between'>
-      <h1 className={`${lusitana.className} text-2xl`}>{title}</h1>
+      <h1 className='text-2xl'>{title}</h1>
     </div>
   )
 }

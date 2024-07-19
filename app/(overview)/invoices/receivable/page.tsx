@@ -4,7 +4,7 @@ import Search from '@/app/ui/search'
 import { Suspense } from 'react'
 import { PageProps } from '../payable/page'
 import { InvoceTableSkeleton } from '@/app/ui/invoices/InvoiceTableSkeleton'
-import TitlePage from '@/app/ui/TitlePage'
+import TitlePage from '@/components/title-page'
 
 export default function Page({ searchParams }: PageProps) {
   const query = searchParams?.query || ''
