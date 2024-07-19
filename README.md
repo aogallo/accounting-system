@@ -18,7 +18,7 @@ We use zod to validate and declare types
 
 `/app/lib`: Contains functions used in the application, such as reusable utility functions and data fetching functions.
 
-`/app/ui`: Contains all the UI components for the application, such as cards, tables and forms.
+`/components`: Contains all the UI components for the application, such as cards, tables and forms.
 
 `/public`: Contains all the static assets for the application, such as images.
 
