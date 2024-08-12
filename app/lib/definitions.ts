@@ -85,6 +85,7 @@ export const InvoiceSchema = z.object({
 export type Invoice = z.infer<typeof InvoiceSchema>
 
 export const UserSchema = zfd.formData({
+  id: zfd.text(z.string()),
   user: zfd.text(
     z.string().min(3, 'User must contain at least 3 character(s)')
   ),
