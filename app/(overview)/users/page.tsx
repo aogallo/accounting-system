@@ -18,25 +18,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
 } from '@radix-ui/react-dropdown-menu'
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  Link,
-  LogOut,
-  Mail,
-  MessageSquare,
-  MoreHorizontal,
-  Plus,
-  PlusCircle,
-  Settings,
-  SlidersHorizontal,
-  User,
-  UserPlus,
-  Users,
-} from 'lucide-react'
+import { MoreHorizontal, SlidersHorizontal } from 'lucide-react'
 
 export default async function Page() {
   const data = await getAllUsers()

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '@/app/global.css'
 import { inter } from '@/components/fonts'
-import { Toaster } from '@/components/ui/toaster'
+// import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: 'Accouting System',
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${inter.className} antialiased`}>
         {children}
-        <Toaster />
+        {/* <Toaster /> */}
       </body>
     </html>
   )
