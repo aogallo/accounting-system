@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,15 +18,14 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     },
     "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
   "include": [
+    "custom-types.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
@@ -38,7 +33,5 @@
     "scripts/users.js",
     "models/Company.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

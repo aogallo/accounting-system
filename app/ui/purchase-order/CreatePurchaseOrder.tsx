@@ -1,15 +1,9 @@
 'use client'
 
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table'
+import { createColumnHelper } from '@tanstack/react-table'
 import { ChangeEvent, useState } from 'react'
 import BaseForm from '../BaseForm'
 import Input from '../Input'
-import Pagination from '../Pagination'
 import { Button } from '../Button'
 import BasicTable from '../BasicTable'
 

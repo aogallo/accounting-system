@@ -1,6 +1,6 @@
-import { Invoice, InvoiceState, InvoiceType, Currency } from '@/models/Invoice'
+import { IInvoice, InvoiceState, InvoiceType, Currency } from '@/models/Invoice'
 
-export const initialState: Invoice = {
+export const initialState: IInvoice = {
   date: '',
   authorizationNumber: '',
   dteNumber: '',
@@ -15,6 +15,10 @@ export const initialState: Invoice = {
   receiver: {
     name: '',
     nit: '',
+  },
+  account: {
+    name: '',
+    account: '',
   },
   serie: '',
   state: InvoiceState.VIGENTE,

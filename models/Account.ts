@@ -1,16 +1,13 @@
 import { Schema } from 'mongoose'
 
-const userSchema = new Schema(
+const accountSchema = new Schema(
   {
-    user: String,
-    name: String,
-    email: {
+    account: {
       type: String,
       unique: true,
     },
-    password: String,
-    roles: {
-      type: [String],
+    name: {
+      type: String,
     },
   },
   {
@@ -26,4 +23,4 @@ const userSchema = new Schema(
   }
 )
 
-export default userSchema
+export default accountSchema

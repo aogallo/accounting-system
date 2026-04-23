@@ -1,10 +1,10 @@
 import Pagination from '@/app/ui/Pagination'
-import { lusitana } from '@/app/ui/fonts'
 import InvoiceTable from '@/app/ui/invoices/InvoiceTable'
 import Search from '@/app/ui/search'
 import { Suspense } from 'react'
 import { PageProps } from '../payable/page'
 import { InvoceTableSkeleton } from '@/app/ui/invoices/InvoiceTableSkeleton'
+import TitlePage from '@/app/ui/TitlePage'
 
 export default function Page({ searchParams }: PageProps) {
   const query = searchParams?.query || ''
@@ -15,11 +15,7 @@ export default function Page({ searchParams }: PageProps) {
 
   return (
     <div className='w-full'>
-      <div className='flex w-full items-center justify-between'>
-        <h1 className={`${lusitana.className} text-2xl`}>
-          Receivable Invoices
-        </h1>
-      </div>
+      <TitlePage title='Receivable Invoices' />
       <div className='mt-4 flex items-center justify-between gap-2 md:mt-8'>
         <Search placeholder='Search invoices...' />
         {/* <CreatePayableAccount /> */}
